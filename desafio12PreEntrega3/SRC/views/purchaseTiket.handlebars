@@ -1,0 +1,36 @@
+<div class="container">
+    <h4 class="container d-flex justify-content-around mt-5">Su compra</h4>
+    <div class="container mt-5 mb-2">
+        <div class="row justify-content-between">
+            <h4>Ticket</h4>
+            <h5>Order: {{tiket.code}}</h5>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Imagen</th>
+                        <th scope="col">Producto</th>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">Precio</th>
+                        <th scope="col">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody id="tBodyContainer" data-purchaser="{{user.email}}">
+                </tbody>
+                <tbody>
+                    <tr>
+                        <th>Total de la compra</th>
+                        <th>${{tiket.amount}}</th>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="container d-flex justify-content-around mb-5">
+                <a class="btn btn-outline-success" href="/products">Ver mas productos!</a>
+            </div>
+        </div>
+    </div>
+    <div class="container d-flex justify-content-around mb-5"></div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/scripts/tiket.js"></script>

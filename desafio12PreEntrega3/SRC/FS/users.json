@@ -1,0 +1,12 @@
+[
+	{
+		"_id": 1,
+		"username": "AGastonChoque",
+		"complete_name": "Gaston Choque",
+		"email": "AGastonChoque@coder.com",
+		"age": "",
+		"password": "",
+		"role": "USER",
+		"cId": 1
+	}
+]
