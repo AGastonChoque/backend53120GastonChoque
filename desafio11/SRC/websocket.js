@@ -1,7 +1,7 @@
-import { productManager } from "./dao/productManager.js";
-import { cartManager } from "./dao/cartManager.js";
-const products = new productManager();
-const carts = new cartManager();
+import { productsController } from "./dao/controllers/productsController.js";
+import { cartsController } from "./dao/controllers/cartsController.js";
+const products = new productsController();
+const carts = new cartsController();
 
 const webSocket = (io) => {
   io.on("connection", async (socket) => {

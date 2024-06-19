@@ -1,7 +1,11 @@
-import productsModel from "./models/productsModel.js"
+import productsServices from "../services/productsServices.js";
 
 
-export class productManager {
+export class productsController {
+
+    constructor () {
+        this.productsServices = new productsServices()
+    }
 
 
     async addProduct(product) {
@@ -40,7 +44,7 @@ export class productManager {
             valQuery.status = status
         }
 
-        let productsRender = await productsModel.paginate(valQuery, { page: valPage, limit: valLimit, lean: true });
+        let productsRender = await this.productsServices.paginate(valQuery, valPage, valLimit)
 
         if (valSort && productsRender.docs.length > 0) {
             productsRender.docs.sort((a, b) => {
@@ -52,11 +56,11 @@ export class productManager {
     }
 
     async inProductsByCode(code) {
-        return await productsModel.findOne({ code: code })
+        return await this.productsServices.findOneCode(code)
     }
 
     async getProductById(id) {
-        let inProductsById = await productsModel.findOne({ _id: id }).lean();
+        let inProductsById = await this.productsServices.findOneIdLean(id)
         if (inProductsById) {
             return inProductsById;
         } else {
@@ -65,16 +69,16 @@ export class productManager {
     }
 
     async saveToBD(newProduct) {
-        return await productsModel.create(newProduct)
+        return await this.productsServices.create(newProduct)
     }
 
     async updateProduct(id, newUpdate) {
-        let product = await productsModel.findOne({ _id: id })
+        let product = await this.productsServices.findOneId(id)
         if (!product) {
             throw new Error(`El producto con el id: "${id}" no existe.`);
         } if (newUpdate.id === undefined || newUpdate.id === id) {
             if (!this.inProductsByCode(newUpdate.code) || newUpdate.code === product.code) {
-                await productsModel.findOneAndUpdate({ _id: id }, newUpdate)
+                await this.productsServices.findAndUpdateIdNewUpdate(id, newUpdate)
                 return (`${product.title} modificado correctamente`)
             } else {
                 throw new Error(`El codigo "${newUpdate.code}" que estas intentando cambiar ya existe`)
@@ -85,11 +89,11 @@ export class productManager {
     }
 
     async deleteProduct(id) {
-        let product = await productsModel.findOne({ _id: id })
+        let product = await this.productsServices.findOneId(id)
         if (!product) {
             throw new Error(`El producto con el id: "${id}" no existe.`);
         } else {
-            await productsModel.deleteOne({ _id: id })
+            await this.productsServices.deleteOneId(id)
             return product
         }
     }

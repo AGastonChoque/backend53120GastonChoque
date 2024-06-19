@@ -3,7 +3,6 @@ import { Server } from "socket.io";
 import handlebars from "express-handlebars";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
-import session from "express-session";
 import mongoStore from "connect-mongo";
 import passport from "passport";
 
@@ -17,13 +16,14 @@ import initializatePassport from "./config/passportConfig.js"
 import sessionsRouter from "./routes/sessionsRouter.js";
 
 
-
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(`${__dirname}/../../public`));
+
+app.use(cookieParser());
 
 
 const uri = "mongodb+srv://agastonchoque:39006538@cluster0.pbe0mgy.mongodb.net/ecommerce?retryWrites=true&w=majority&appName=Cluster0"
@@ -43,23 +43,9 @@ app.engine("handlebars", handlebars.engine());
 app.set("views", `${__dirname}/../views`);
 app.set("view engine", "handlebars");
 
-app.use(session(
-  {
-      store: mongoStore.create(
-          {
-              mongoUrl: uri,
-              ttl: 3600
-          }
-      ),
-      secret: 'secretPhrase',
-      resave: true,
-      saveUninitialized: true
-  }
-));
 
 initializatePassport();
 app.use(passport.initialize());
-app.use(passport.session());
 
 
 app.use("/api/products", productsRouter);

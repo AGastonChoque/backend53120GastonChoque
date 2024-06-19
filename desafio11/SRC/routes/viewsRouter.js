@@ -1,21 +1,23 @@
 import { Router } from "express";
 
-import { productManager } from "../dao/productManager.js";
-import { cartManager } from "../dao/cartManager.js";
-import {auth} from '../middlewares/auth.js';
+import { productsController } from "../dao/controllers/productsController.js";
+import { cartsController } from "../dao/controllers/cartsController.js";
+/* import {auth} from '../middlewares/auth.js'; */
+import { authToken } from "../utils/jwt.js";
+import { passportCall, userVerify } from "../utils/authUtil.js";
 
 const viewsRouter = Router();
 
-const products = new productManager()
-const carts = new cartManager()
+const products = new productsController()
+const carts = new cartsController()
 
 
-viewsRouter.get('/', auth, async (req, res) => {
+viewsRouter.get('/', userVerify("jwt"), passportCall('jwt'), async (req, res) => {
   try {
     res.render("index", {
       title: "Home",
       cssName: "general.css",
-      user: req.session.user
+      user: req.user.user
     });
   } catch {
     res.status(500).send({ status: "error", error: "Server ERROR, no se pudo obtener la vista del Home" })
@@ -23,12 +25,12 @@ viewsRouter.get('/', auth, async (req, res) => {
   }
 })
 
-viewsRouter.get("/realtimeproducts", auth, async (req, res) => {
+viewsRouter.get("/realtimeproducts", passportCall('jwt'), async (req, res) => {
   try {
     res.render("realTimeProducts", {
       title: "Real time products",
       cssName: "realTimeProducts.css",
-      user: req.session.user
+      user: req.user.user
     });
   } catch {
     res.status(500).send({ status: "error", error: "Server ERROR, no se pudo obtener la vista realtimeproducts" })
@@ -36,7 +38,7 @@ viewsRouter.get("/realtimeproducts", auth, async (req, res) => {
   }
 });
 
-viewsRouter.get("/products", auth, async (req, res) => {
+viewsRouter.get("/products", userVerify("jwt"), passportCall("jwt"), async (req, res) => {
   try {
     const { limit, page, query, sort, status } = req.query;
     let result = await products.getProducts(limit, page, query, sort, status);
@@ -49,7 +51,7 @@ viewsRouter.get("/products", auth, async (req, res) => {
       title: "Productos",
       cssName: "general.css",
       data: result,
-      user: req.session.user
+      user: req.user.user
     })
   } catch {
     res.status(500).send({ status: "error", error: "Server ERROR, no se pudo obtener la vista de productos" })
@@ -57,14 +59,14 @@ viewsRouter.get("/products", auth, async (req, res) => {
   }
 })
 
-viewsRouter.get("/carts/:cId", auth, async (req, res) => {
+viewsRouter.get("/carts/:cId", passportCall('jwt'), async (req, res) => {
   try {
     const cId = req.params.cId
     const cart = await carts.getCartById(cId)
     res.render("cart", {
       title: "Carrito",
       cssName: "general.css",
-      user: req.session.user
+      user: req.user.user
     });
   } catch {
     res.status(500).send({ status: "error", error: "Server ERROR, no se pudo obtener la vista del carrito" })
@@ -72,7 +74,7 @@ viewsRouter.get("/carts/:cId", auth, async (req, res) => {
   }
 });
 
-viewsRouter.get("/carts", auth, async (req, res) => {
+viewsRouter.get("/carts", userVerify("jwt"), passportCall('jwt'), async (req, res) => {
   try {
     res.redirect("/products")
   } catch {
@@ -81,7 +83,7 @@ viewsRouter.get("/carts", auth, async (req, res) => {
   }
 });
 
-viewsRouter.get('/products/:pid', auth, async (req, res) => {
+viewsRouter.get('/products/:pid', passportCall('jwt'), async (req, res) => {
   try {
     const pId = req.params.pid
     const product = await products.getProductById(pId)
@@ -89,7 +91,7 @@ viewsRouter.get('/products/:pid', auth, async (req, res) => {
       title: "Producto: " + product.title,
       cssName: "item.css",
       product: product,
-      user: req.session.user
+      user: req.user.user
     });
   } catch {
     res.status(500).send({ status: "error", error: "Server ERROR, no se pudo obtener la vista del producto" })
@@ -101,8 +103,7 @@ viewsRouter.get('/login', async (req, res) => {
   try {
     res.render("login", {
       title: "Login",
-      cssName: "realTimeProducts.css",
-      user: req.session.user
+      cssName: "realTimeProducts.css"
     });
   } catch {
     res.status(500).send({ status: "error", error: "Server ERROR, no se pudo obtener la vista del login" })
@@ -114,8 +115,7 @@ viewsRouter.get('/register', async (req, res) => {
   try {
     res.render("register", {
       title: "Register",
-      cssName: "realTimeProducts.css",
-      user: req.session.user
+      cssName: "realTimeProducts.css"
     });
   } catch {
     res.status(500).send({ status: "error", error: "Server ERROR, no se pudo obtener la vista del register" })

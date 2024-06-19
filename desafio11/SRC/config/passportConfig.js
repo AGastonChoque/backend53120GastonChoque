@@ -4,16 +4,21 @@ import GitHubStrategy from "passport-github2"
 
 import usersModel from "../dao/models/usersModel.js"
 import { createHash, isValidPassword } from "../utils/functionsUtils.js"
+import jwt, { ExtractJwt } from 'passport-jwt';
+import config from "../config.js"
+
 
 
 const localStrategy = local.Strategy
+const JWTStratergy = jwt.Strategy;
 
 const initializatePassport = () => {
 
     passport.use("register", new localStrategy(
         {
             passReqToCallback: true,
-            usernameField: "email"
+            usernameField: "email",
+            session: false
         },
         async (req, username, password, done) => {
 
@@ -21,7 +26,6 @@ const initializatePassport = () => {
                 let userVerify = await usersModel.findOne({ email: username })
 
                 if (userVerify) {
-                    req.session.failRegister = true;
                     return done(null, false, { message: "User already exist!" });
                 }
 
@@ -46,20 +50,20 @@ const initializatePassport = () => {
         {
             usernameField: "email",
             passReqToCallback: true,
+            session: false
         },
         async (req, username, password, done) => {
             try {
                 const user = await usersModel.findOne({ email: username }).lean();
                 if (!user) {
-                    req.session.failLogin = true;
+                    user.failLogin = true;
                     return done(null, false, { message: "User does not exist!" });
                 }
 
                 if (!isValidPassword(user.password, password)) {
-                    req.session.failLogin = true;
+                    user.failLogin = true;
                     return done(null, false, { message: "User or Password is incorrect!" });
                 }
-
                 return done(null, user)
             } catch (error) {
                 return done(error.message)
@@ -68,8 +72,8 @@ const initializatePassport = () => {
     ))
 
 
-    const CLIENT_ID = "";
-    const SECRET_ID = "";
+    const CLIENT_ID = config.CLIENT_ID
+    const SECRET_ID = config.SECRET_ID
 
     passport.use("github", new GitHubStrategy(
         {
@@ -113,6 +117,33 @@ const initializatePassport = () => {
     })
 
 
+    const PRIVATE_KEY_jWT = config.PRIVATE_KEY_jWT
+    passport.use("jwt", new JWTStratergy(
+            {
+                jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
+                secretOrKey: PRIVATE_KEY_jWT
+            },
+            async (jwt_payload, done) => {
+                try {
+                    return done(null, jwt_payload);
+                } catch (error) {
+                    return done(error);
+                }
+            }
+        )
+    )
 }
+
+const cookieExtractor = (req) => {
+    let token = null;
+    if (req && req.cookies) {
+        token = req.cookies.cookieToken ?? null;
+    }
+
+    return token;
+}
+
+
+
 
 export default initializatePassport;

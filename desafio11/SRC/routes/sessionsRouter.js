@@ -1,33 +1,35 @@
 import { Router } from "express";
 import passport from "passport";
+import jwt from "jsonwebtoken";
 
-import { cartManager } from "../dao/cartManager.js";
+import { cartsController } from "../dao/controllers/cartsController.js";
+import { generateToken } from "../utils/jwt.js";
 
 
-const carts = new cartManager()
+const carts = new cartsController()
 const sessionsRouter = Router();
 
 sessionsRouter.get("/github", passport.authenticate("github", {scope: ["user:email"]}), async (req, res) => {
   try {
-    req.session.failRegister = false
     return res.send({ status: 'success', message: 'Success' });
   } catch (error) {
-    req.session.failRegister = true;
     res.status(500).send({ status: "error", error: error.message })
     return [];
   }
 });
 
-sessionsRouter.get("/githubCallback", passport.authenticate("github", { failureRedirect: "/failRegister" }), async (req, res) => {
+sessionsRouter.get("/githubCallback", passport.authenticate("github", { failureRedirect: "/failRegister", session: false }), async (req, res) => {
+  const user = req.user
   try {
-    const user = req.user
-    req.session.failRegister = false;
+    user.failLogin = false;
     let newCart = await carts.addCart()
     user.cId = newCart._id
-    req.session.user = user
+    const PRIVATE_KEY = "secretKeyJWT"
+    const token = jwt.sign({user}, PRIVATE_KEY, {expiresIn: "1h"})
+    res.cookie('cookieToken', token, { httpOnly: true, secure: true, maxAge: 60*60*1000 })
     return res.redirect("/products");
   } catch (error) {
-    req.session.failRegister = true;
+    user.failLogin = true;
     res.status(500).send({ status: "error", error: error.message })
     return [];
   }
