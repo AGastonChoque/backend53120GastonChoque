@@ -88,13 +88,12 @@ li {
       background: #78788c;
       color: #fff; }
     .v-form .form div {
-      content: 'Hi';
       position: absolute;
       bottom: -60px;
       right: -20px;
       background: #50505a;
       color: #fff;
-      width: 320px;
+      width: 200px;
       padding: 16px 4px 16px 0;
       border-radius: 6px;
       font-size: 13px;
@@ -102,3 +101,13 @@ li {
       text-align: center; }
       .v-form .form div span {
         margin: 0 5px 0 15px; }
+        .v-form .form .gitHubIconLogin {
+          position: absolute;
+          bottom: 275px;
+          right: 30px;
+          text-align: center; }
+          .v-form .form .gitHubIconRegister {
+            position: absolute;
+            bottom: 550px;
+            right: 30px;
+            text-align: center; }

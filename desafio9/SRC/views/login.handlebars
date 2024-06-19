@@ -3,10 +3,10 @@
         <form id="formUsers" class="form" method="post" action="/api/sessions/login">
             <h2>Login</h2>
             <p type="Email:">
-                <input type="text" name="formEmail" id="formEmail" placeholder="Email" required>
+                <input type="text" name="email" id="formEmail" placeholder="Email" required>
             </p>
             <p type="Password:">
-                <input type="password" name="formPassword" id="formPassword" placeholder="Password" required>
+                <input type="password" name="password" id="formPassword" placeholder="Password" required>
             </p>
             <button>
                 <input type="submit" value="Login">
@@ -14,6 +14,10 @@
             <div>
                 <a class="fa" href="/register">Register</a>
             </div>
+            <a class="gitHubIconLogin" href="/api/sessions/github">
+                <img class="logo-header" src="resources/iconos/gitHub.png" alt="Logo GitHub"
+                    width="75">
+            </a>
         </form>
     </div>
 

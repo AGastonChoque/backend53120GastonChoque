@@ -1,17 +1,20 @@
 import express from "express";
-import { Server } from "socket.io"
-import handlebars from "express-handlebars"
+import { Server } from "socket.io";
+import handlebars from "express-handlebars";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import session from "express-session";
-import mongoStore from 'connect-mongo';
+import mongoStore from "connect-mongo";
+import passport from "passport";
 
 import productsRouter from "./routes/productsRouter.js"
 import cartsRouter from "./routes/cartsRouter.js"
 import viewsRouter from "./routes/viewsRouter.js"
 import usersRouter from "./routes/usersRouter.js"
 import __dirname from "./utils/utils.js";
-import webSocket from './websocket.js';
+import webSocket from "./websocket.js";
+import initializatePassport from "./config/passportConfig.js"
+import sessionsRouter from "./routes/sessionsRouter.js";
 
 
 
@@ -54,11 +57,16 @@ app.use(session(
   }
 ));
 
+initializatePassport();
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/", viewsRouter);
-app.use("/api/sessions", usersRouter)
+app.use("/api/sessions", usersRouter);
+app.use("/api/sessions", sessionsRouter);
 
 
 const PORT = 8080
