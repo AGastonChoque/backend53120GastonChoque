@@ -3,6 +3,8 @@ import { cartsController } from "../controllers/cartsController.js"
 import { tiketsController } from "../controllers/tiketController.js";
 import { userVerify } from "../utils/authUtil.js";
 import config from "../config.js";
+import CustomError from '../services/errors/CustomError.js';
+import { ErrorCodes } from '../services/errors/enums.js';
 
 const cartsRouter = Router();
 
@@ -17,8 +19,14 @@ cartsRouter.get("/", async (req, res) => {
         let limitCarts = allCarts.slice(0, limit);
         limit ? res.send(limitCarts) : res.send(allCarts)
     } catch (error) {
-        res.status(500).send({ status: "error", error: "Server ERROR, no se pudieron obtener los carritos" });
-        return [];
+        /* res.status(500).send({ status: "error", error: "Server ERROR, no se pudieron obtener los carritos" });
+        return []; */
+        CustomError.createError({
+            name: 'cartsRouterGet error',
+            cause: 'Server fail to charge carts',
+            message: 'Server ERROR, no se pudieron obtener los carritos',
+            code: ErrorCodes.DATABASE_ERROR
+        });
     }
 });
 
@@ -31,8 +39,14 @@ cartsRouter.post('/', async (req, res) => {
             res.status(400).send(error.message);
         }
     } catch {
-        res.status(500).send({ status: "error", error: "Server ERROR, no se pudo agregar el carrito" })
-        return [];
+        /* res.status(500).send({ status: "error", error: "Server ERROR, no se pudo agregar el carrito" })
+        return []; */
+        CustomError.createError({
+            name: 'cartsRouterPost error',
+            cause: 'Server fail to post carts',
+            message: 'Server ERROR, no se pudo agregar el carrito',
+            code: ErrorCodes.DATABASE_ERROR
+        });
     }
 });
 
@@ -47,8 +61,14 @@ cartsRouter.post('/:cId/products/:pId', userVerify('jwt', ["USER"]), async (req,
             res.status(400).send(error.message);
         }
     } catch {
-        res.status(500).send({ status: "error", error: "Server ERROR, no se pudo agregar el carrito" })
-        return [];
+        /* res.status(500).send({ status: "error", error: "Server ERROR, no se pudo agregar el carrito" })
+        return []; */
+        CustomError.createError({
+            name: 'cartsRouterPostProduct error',
+            cause: 'Server fail to post product in cart',
+            message: 'Server ERROR, no se pudo cargar el producto en el carrito',
+            code: ErrorCodes.DATABASE_ERROR
+        });
     }
 });
 
@@ -63,8 +83,14 @@ cartsRouter.put('/:cId', userVerify('jwt', ["ADMIN"]), async (req, res) => {
             res.status(400).send(error.message);
         }
     } catch {
-        res.status(500).send({ status: "error", error: "Server ERROR, no se pudo agregar el carrito" })
-        return [];
+        /* res.status(500).send({ status: "error", error: "Server ERROR, no se pudo agregar el carrito" })
+        return []; */
+        CustomError.createError({
+            name: 'cartsRouterPut error',
+            cause: 'Server fail to upload all cart',
+            message: 'Server ERROR, no se pudo modificar todo el carrito',
+            code: ErrorCodes.DATABASE_ERROR
+        });
     }
 });
 
@@ -78,8 +104,14 @@ cartsRouter.delete('/:cId', userVerify('jwt', ["ADMIN"]), async (req, res) => {
             res.status(400).send(error.message);
         }
     } catch {
-        res.status(500).send({ status: "error", error: "Server ERROR, no se pudo agregar el carrito" })
-        return [];
+        /* res.status(500).send({ status: "error", error: "Server ERROR, no se pudo agregar el carrito" })
+        return []; */
+        CustomError.createError({
+            name: 'cartsRouterDelete error',
+            cause: 'Server fail to delete cart',
+            message: 'Server ERROR, no se pudo eliminar el carrito',
+            code: ErrorCodes.DATABASE_ERROR
+        });
     }
 });
 
@@ -94,8 +126,14 @@ cartsRouter.delete('/:cId/products/:pId', userVerify('jwt', ["USER", "ADMIN"]), 
             res.status(400).send(error.message);
         }
     } catch {
-        res.status(500).send({ status: "error", error: "Server ERROR, no se pudo agregar el carrito" })
-        return [];
+        /* res.status(500).send({ status: "error", error: "Server ERROR, no se pudo agregar el carrito" })
+        return []; */
+        CustomError.createError({
+            name: 'cartsRouterDeleteProduct error',
+            cause: 'Server fail to delete product in cart',
+            message: 'Server ERROR, no se pudo eliminar el producto del carrito',
+            code: ErrorCodes.DATABASE_ERROR
+        });
     }
 });
 
@@ -109,8 +147,14 @@ cartsRouter.get('/:cId/purchase', userVerify('jwt', ["USER", "ADMIN"]), async (r
             res.status(400).send(error.message);
         }
     } catch {
-        res.status(500).send({ status: "error", error: "Server ERROR, no se pudo agregar su compra" })
-        return [];
+        /* res.status(500).send({ status: "error", error: "Server ERROR, no se pudo agregar su compra" })
+        return []; */
+        CustomError.createError({
+            name: 'cartsRouterGetPurchase error',
+            cause: 'Server fail to purchase cart',
+            message: 'Server ERROR, no se pudo realizar la compra!',
+            code: ErrorCodes.DATABASE_ERROR
+        });
     }
 });
 

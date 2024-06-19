@@ -6,7 +6,6 @@ import cookieParser from "cookie-parser";
 import mongoStore from "connect-mongo";
 import passport from "passport";
 import cors from "cors";
-import nodemailer from "nodemailer";
 
 import productsRouter from "./routes/productsRouter.js";
 import cartsRouter from "./routes/cartsRouter.js";
@@ -17,6 +16,7 @@ import webSocket from "./websocket.js";
 import initializatePassport from "./config/passportConfig.js";
 import sessionsRouter from "./routes/sessionsRouter.js";
 import config from "./config.js";
+import errorHandler from "./middlewares/errors/index.js"
 
 
 const app = express();
@@ -60,6 +60,9 @@ app.use("/api/carts", cartsRouter);
 app.use("/", viewsRouter);
 app.use("/api/sessions", usersRouter);
 app.use("/api/sessions", sessionsRouter);
+
+app.use(errorHandler);
+
 
 const PORT = config.port
 const httpServer = app.listen(PORT, () => {

@@ -1,6 +1,10 @@
 import products from "../dao/mongo/productsMongo.js"
 /* import products from "../dao/memory/produtsMemory.js" */
 
+import CustomError from './errors/CustomError.js';
+import { ErrorCodes } from './errors/enums.js';
+import { generateUserErrorInfo, generateProductErrorInfo, generateProductCodeErrorInfo } from './errors/info.js';
+
 export default class productsServices {
 
     constructor () {
@@ -24,10 +28,22 @@ export default class productsServices {
                 await this.products.create(productNew);
                 return (`El producto "${product.title}" fue agregado correctamente`);
             } else {
-                throw new Error(`El producto que estás intentando agregar "${product.title}" no contiene todos los valores, asegúrate de completar todos los campos`);
+                /* throw new Error(`El producto que estás intentando agregar "${product.title}" no contiene todos los valores, asegúrate de completar todos los campos`); */
+                CustomError.createError({
+                    name: 'AddProduct error',
+                    cause: generateProductErrorInfo(product),
+                    message: 'El producto que esta intentando agregar no contiene todos los valores, asegurate de completar todos los campos',
+                    code: ErrorCodes.INVALID_TYPES_ERROR
+                });
             }
         } else {
-            throw new Error(`Error: El producto ${product.title} contiene un código "${product.code}" ya cargado.`);
+            /* throw new Error(`Error: El producto ${product.title} contiene un código "${product.code}" ya cargado.`); */
+            CustomError.createError({
+                name: 'AddProduct code error',
+                cause: generateProductCodeErrorInfo(product),
+                message: 'El codigo del producto que estas intentando cargar ya fue cargado previamente',
+                code: ErrorCodes.INVALID_TYPES_ERROR
+            });
         }
     }
 

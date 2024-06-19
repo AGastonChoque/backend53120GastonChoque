@@ -4,6 +4,8 @@ import jwt from "jsonwebtoken";
 
 import { cartsController } from "../controllers/cartsController.js";
 import { generateToken } from "../utils/jwt.js";
+import CustomError from '../services/errors/CustomError.js';
+import { ErrorCodes } from '../services/errors/enums.js';
 
 
 const carts = new cartsController()
@@ -13,8 +15,14 @@ sessionsRouter.get("/github", passport.authenticate("github", {scope: ["user:ema
   try {
     return res.send({ status: 'success', message: 'Success' });
   } catch (error) {
-    res.status(500).send({ status: "error", error: error.message })
-    return [];
+    /* res.status(500).send({ status: "error", error: error.message })
+    return []; */
+    CustomError.createError({
+      name: 'sessionsRouterGet error',
+      cause: 'Server fail to initializate GitHub',
+      message: 'Server ERROR, no se pudo conectar a GitHub',
+      code: ErrorCodes.DATABASE_ERROR
+  });
   }
 });
 
@@ -29,8 +37,14 @@ sessionsRouter.get("/githubCallback", passport.authenticate("github", { failureR
     return res.redirect("/products");
   } catch (error) {
     user.failLogin = true;
-    res.status(500).send({ status: "error", error: error.message })
-    return [];
+    /* res.status(500).send({ status: "error", error: error.message })
+    return []; */
+    CustomError.createError({
+      name: 'sessionsRouterGetCallback error',
+      cause: 'Server fail to charge GitHub callback',
+      message: 'Server ERROR, no se pudo obtener el callback de GitHub',
+      code: ErrorCodes.DATABASE_ERROR
+  });
   }
 });
 

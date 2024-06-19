@@ -9,6 +9,8 @@ import { passportCall, userVerify } from "../utils/authUtil.js";
 import { authorization } from "../middlewares/auth.js";
 import config from "../config.js";
 import currentDTO from "../dao/DTOs/currentDTO.js";
+import CustomError from '../services/errors/CustomError.js';
+import { ErrorCodes } from '../services/errors/enums.js';
 
 const usersRouter = Router();
 const carts = new cartsController();
@@ -18,8 +20,14 @@ usersRouter.post("/register", passport.authenticate("register", { failureRedirec
     return res.redirect("/login");
   } catch (error) {
     req.user.failRegister = true;
-    res.status(500).send({ status: "error", error: error.message })
-    return [];
+    /* res.status(500).send({ status: "error", error: error.message })
+    return []; */
+    CustomError.createError({
+      name: 'usersRouterRegister error',
+      cause: 'Server fail to register User',
+      message: 'Server ERROR, no se pudo registrar el usuario',
+      code: ErrorCodes.DATABASE_ERROR
+    });
   }
 });
 
@@ -45,8 +53,14 @@ usersRouter.post("/login", passport.authenticate("login", { failureRedirect: "/f
     return res.redirect("/products")
   } catch (error) {
     user.failLogin = true;
-    res.status(500).send({ status: "error", error: error.message })
-    return [];
+    /* res.status(500).send({ status: "error", error: error.message })
+    return []; */
+    CustomError.createError({
+      name: 'usersRouterLogin error',
+      cause: 'Server fail to login user',
+      message: 'Server ERROR, no se pudo loguear el usuario',
+      code: ErrorCodes.DATABASE_ERROR
+    });
   }
 });
 
@@ -56,21 +70,45 @@ usersRouter.get("/logout", passportCall('jwt'), (req, res) => {
     res.clearCookie("cookieToken")
     return res.redirect("/login")
   } catch (error) {
-    res.status(500).send({ status: "error", error: error.message })
-    return [];
+    /* res.status(500).send({ status: "error", error: error.message })
+    return []; */
+    CustomError.createError({
+      name: 'usersRouterLogout error',
+      cause: 'Server fail to logout User',
+      message: 'Server ERROR, no se pudo desloguear el usuario',
+      code: ErrorCodes.DATABASE_ERROR
+    });
   }
 
 });
 
 usersRouter.get('/current', userVerify('jwt', ["USER", "ADMIN"]), passportCall('jwt'), async (req, res) => {
-  const data = req.user
-  const user = new currentDTO(data.user)
-  req.user = user
-  res.send(req.user);
+  try {
+    const data = req.user
+    const user = new currentDTO(data.user)
+    req.user = user
+    res.send(req.user);
+  } catch (error) {
+    CustomError.createError({
+      name: 'usersRouterCurrent error',
+      cause: 'Server fail to charge current User',
+      message: 'Server ERROR, no se pudo cargar el usuario actual',
+      code: ErrorCodes.DATABASE_ERROR
+    });
+  }
 });
 
 usersRouter.get('/private', userVerify('jwt', ["ADMIN"]), passportCall('jwt'), authorization(), async (req, res) => {
-  res.send(req.user);
+  try {
+    res.send(req.user);
+  } catch (error) {
+    CustomError.createError({
+      name: 'usersRouterPrivate error',
+      cause: 'Server fail to chargue private route',
+      message: 'Server ERROR, no se pudo cargar la vista privada',
+      code: ErrorCodes.DATABASE_ERROR
+    });
+  }
 });
 
 
