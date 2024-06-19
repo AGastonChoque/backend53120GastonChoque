@@ -1,19 +1,35 @@
 import express from "express";
+import { Server } from "socket.io"
+import handlebars from "express-handlebars"
+import mongoose from "mongoose";
+
 import productsRouter from "./routes/productsRouter.js"
 import cartsRouter from "./routes/cartsRouter.js"
-import handlebars from "express-handlebars"
+import viewsRouter from "./routes/viewsRouter.js"
 import __dirname from "./utils.js";
-import { Server } from "socket.io"
-import { productManager } from "./js/productManager.js";
+import webSocket from './websocket.js';
 
 
 const app = express();
-
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(`${__dirname}/../public`));
+
+const connectionBBDD = async() => {
+  try{
+    const uri = "mongodb+srv://agastonchoque:39006538@cluster0.pbe0mgy.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+    const BD = "ecommerce"
+    await mongoose.connect(uri, {dbName: BD})
+    console.log("Conectado a la bbdd remota de mongoDB Atlas");
+
+  }catch(error){
+    console.log("Fallo la conexion");
+  }
+}
+
+connectionBBDD()
 
 app.engine("handlebars", handlebars.engine());
 app.set("views", `${__dirname}/views`);
@@ -39,6 +55,7 @@ app.get('/', (req, res) => {
 });
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
+app.use("/", viewsRouter);
 
 
 const PORT = 8080
@@ -46,30 +63,6 @@ const httpServer = app.listen(PORT, () => {
   console.log(`Servidor activo en http://localhost:${PORT}`);
 });
 
-const socketServer = new Server(httpServer)
+const io = new Server(httpServer)
 
-const products = new productManager("./SRC/FS/products.json")
-
-app.get("/realtimeproducts", async (req, res) => {
-  res.render("realTimeProducts", {
-    title: "Real time products",
-    cssName: "realTimeProducts.css"
-  });
-});
-
-socketServer.on("connection", (socket) => {
-  console.log("Nuevo cliente conectado -----> ", socket.id);
-
-  socket.on("getProducts", async () => {
-    let productsData = await products.getProducts();
-    socketServer.emit("productsRender", productsData);
-  });
-
-  socket.on("addProduct", async (productData) => {
-    await products.addProduct(productData);
-  });
-
-  socket.on("deleteProduct", async (productId) => {
-    await products.deleteProduct(productId);
-  });
-});
+webSocket(io);

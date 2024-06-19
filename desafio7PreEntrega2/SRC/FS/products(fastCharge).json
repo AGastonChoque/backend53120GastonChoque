@@ -7,8 +7,7 @@
 		"code": "coc",
 		"stock": 10,
 		"category": "bebidas",
-		"status": true,
-		"id": 1
+		"status": true
 	},
 	{
 		"title": "Fanta",
@@ -18,8 +17,7 @@
 		"code": "fan",
 		"stock": 20,
 		"category": "bebidas",
-		"status": true,
-		"id": 2
+		"status": true
 	},
 	{
 		"title": "Pepsi",
@@ -29,8 +27,7 @@
 		"code": "pep",
 		"stock": 30,
 		"category": "bebidas",
-		"status": true,
-		"id": 3
+		"status": true
 	},
 	{
 		"title": "Sprite",
@@ -40,8 +37,7 @@
 		"code": "spr",
 		"stock": 40,
 		"category": "bebidas",
-		"status": true,
-		"id": 4
+		"status": true
 	},
 	{
 		"title": "7Up",
@@ -51,8 +47,7 @@
 		"code": "7up",
 		"stock": 50,
 		"category": "bebidas",
-		"status": true,
-		"id": 5
+		"status": true
 	},
 	{
 		"title": "Hamburguesa 300Gr.",
@@ -62,8 +57,7 @@
 		"code": "ham300",
 		"stock": 60,
 		"category": "comida",
-		"status": true,
-		"id": 6
+		"status": true
 	},
 	{
 		"title": "Papas fritas 500Gr.",
@@ -73,8 +67,7 @@
 		"code": "pap500",
 		"stock": 70,
 		"category": "comida",
-		"status": true,
-		"id": 7
+		"status": true
 	},
 	{
 		"title": "Cafe 300Ml",
@@ -84,8 +77,7 @@
 		"code": "caf300",
 		"stock": 80,
 		"category": "bebidas",
-		"status": true,
-		"id": 8
+		"status": true
 	},
 	{
 		"title": "Sundae",
@@ -95,8 +87,7 @@
 		"code": "sun",
 		"stock": 90,
 		"category": "postres",
-		"status": true,
-		"id": 9
+		"status": true
 	},
 	{
 		"title": "Budin de pan 300Gr",
@@ -106,7 +97,46 @@
 		"code": "bud300",
 		"stock": 100,
 		"category": "postres",
-		"status": true,
-		"id": 10
+		"status": true
+	},
+	{
+		"title": "Donuts",
+		"description": "Donuts con salsa de chocolate.",
+		"price": 400,
+		"thumbnail": "",
+		"code": "don",
+		"stock": 320,
+		"category": "postres",
+		"status": true
+	},
+	{
+		"title": "Churros",
+		"description": "Churros x12 con ddl.",
+		"price": 5400,
+		"thumbnail": "",
+		"code": "chu",
+		"stock": 95,
+		"category": "postres",
+		"status": true
+	},
+	{
+		"title": "Galletas de vainilla",
+		"description": "Galletas de vainilla con chips de chocolate.",
+		"price": 3500,
+		"thumbnail": "",
+		"code": "gal",
+		"stock": 90,
+		"category": "postres",
+		"status": true
+	},
+	{
+		"title": "Medialunas",
+		"description": "Medialunas x12Un.",
+		"price": 5000,
+		"thumbnail": "",
+		"code": "med",
+		"stock": 345,
+		"category": "postres",
+		"status": true
 	}
 ]

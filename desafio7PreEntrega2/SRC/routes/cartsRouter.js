@@ -1,9 +1,9 @@
 import { Router } from "express"
-import { cartManager } from "../js/cartManager.js"
+import { cartManager } from "../dao/cartManager.js"
 
 const cartsRouter = Router();
 
-const carts = new cartManager("./SRC/FS/carts.json")
+const carts = new cartManager()
 
 
 cartsRouter.get("/", async (req, res) => {
@@ -35,9 +35,40 @@ cartsRouter.post('/', async (req, res) => {
 cartsRouter.post('/:cId/products/:pId', async (req, res) => {
     try {
         try {
-            const cId = parseInt(req.params.cId);
-            const pId = parseInt(req.params.pId);
+            const cId = req.params.cId;
+            const pId = req.params.pId;
             const result = await carts.updateCart(cId, pId);
+            res.send(result);
+        } catch (error) {
+            res.status(400).send(error.message);
+        }
+    } catch {
+        res.status(500).send({ status: "error", error: "Server ERROR, no se pudo agregar el carrito" })
+        return [];
+    }
+});
+
+cartsRouter.put('/:cId', async (req, res) => {
+    try {
+        try {
+            const cId = req.params.cId;
+            const newCart = req.body.newCart;
+            const result = await carts.updateAllCart(cId, newCart);
+            res.send(result);
+        } catch (error) {
+            res.status(400).send(error.message);
+        }
+    } catch {
+        res.status(500).send({ status: "error", error: "Server ERROR, no se pudo agregar el carrito" })
+        return [];
+    }
+});
+
+cartsRouter.delete('/:cId', async (req, res) => {
+    try {
+        try {
+            const cId = req.params.cId;
+            const result = await carts.deleteCart(cId);
             res.send(result);
         } catch (error) {
             res.status(400).send(error.message);
@@ -51,8 +82,8 @@ cartsRouter.post('/:cId/products/:pId', async (req, res) => {
 cartsRouter.delete('/:cId/products/:pId', async (req, res) => {
     try {
         try {
-            const cId = parseInt(req.params.cId);
-            const pId = parseInt(req.params.pId);
+            const cId = req.params.cId;
+            const pId = req.params.pId;
             const result = await carts.deleteProductInCart(cId, pId);
             res.send(result);
         } catch (error) {

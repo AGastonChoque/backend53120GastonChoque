@@ -6,11 +6,10 @@ function getProducts() {
     socket.emit("getProducts");
 }
 
-function renderProducts(products) {
+function renderProducts(productsData) {
     const productsContainer = document.getElementById("productsContainer");
     let productCard = "";
-
-    products.forEach((product) => {
+    productsData.forEach((product) => {
         productCard += `
             <div class="card m-2" style="width: 18rem;">
                 <a id="thumbnails" href=${product.thumbnail}><img src=${product.thumbnail} height="250" class="card-img-top rounded p-1"
@@ -18,7 +17,7 @@ function renderProducts(products) {
                 <div class="card-body">
                     <h5 id="price" class="card-title">$${product.price}</h5>
                     <p id="title" class="card-text text-secondary">${product.title}</p>
-                    <a class="btn btn-outline-danger" onclick="deleteProduct(${product.id})">Delete</a>
+                    <a class="btn btn-outline-danger" onclick="deleteProductById('${product._id}')">Delete</a>
                 </div>
             </div>
             `
@@ -28,7 +27,7 @@ function renderProducts(products) {
 }
 
 socket.on("productsRender", (productsData) => {
-    renderProducts(productsData);
+    renderProducts(productsData.docs);
 });
 
 const form = document.getElementById('form');
@@ -53,8 +52,7 @@ form.addEventListener('submit', (event) => {
         thumbnail: thumbnail
     };
 
-    socket.emit("addProduct", product);
-    console.log(product);
+    socket.emit("addProduct", product)
 
     document.getElementById('formTitle').value = "";
     document.getElementById('formDescription').value = "";
@@ -64,10 +62,8 @@ form.addEventListener('submit', (event) => {
     document.getElementById('formCategory').value = "";
     document.getElementById('formThumbnails').value = "";
 
-    getProducts()
 });
 
-function deleteProduct(productId) {
-    socket.emit("deleteProduct", productId);
-    getProducts();
+function deleteProductById(pId) {
+    socket.emit("deleteProduct", pId);
 }

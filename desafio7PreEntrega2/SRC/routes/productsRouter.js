@@ -1,20 +1,25 @@
 import { Router } from "express"
-import { productManager } from "../js/productManager.js"
+
+import { productManager } from "../dao/productManager.js"
+
 
 const productsRouter = Router();
 
-const products = new productManager("./SRC/FS/products.json")
+const products = new productManager()
 
 
 productsRouter.get("/", async (req, res) => {
     try {
-        const { limit } = req.query;
-        let allProducts = await products.getProducts();
-        let limitProducts = allProducts.slice(0, limit);
-        res.render("home", {
-            title: "Home",
+        const { limit=4, page, query, sort, status } = req.query;
+        let result = await products.getProducts(limit, page, query, sort, status);
+        let baseURL = "http://localhost:8080/api/products"
+        result.prevLink = result.prevPage ? `${baseURL}?page=${result.prevPage}` : null,
+            result.nextLink = result.nextPage ? `${baseURL}?page=${result.nextPage}` : null,
+            result.isValid = !(page <= 0 || page > result.totalPages);
+        res.render("apiProducts", {
+            title: "API Products",
             cssName: "general.css",
-            products: limit ? limitProducts : allProducts
+            data: result
         })
     } catch (error) {
         res.status(500).send({ status: "error", error: "Server ERROR, no se pudieron obtener los productos" });
@@ -25,7 +30,7 @@ productsRouter.get("/", async (req, res) => {
 productsRouter.get("/:pId", async (req, res) => {
     try {
         try {
-            const id = parseInt(req.params.pId);
+            const id = req.params.pId;
             const result = await products.getProductById(id)
             res.send(result)
         } catch (error) {
