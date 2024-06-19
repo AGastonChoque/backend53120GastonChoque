@@ -1,0 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap");
+/* Tipografia */
+/* Colores de la marca */
+* {
+  font-family: "Poppins", sans-serif;
+  margin: 0px;
+  padding: 0px; }
+
+a {
+  text-decoration: none;
+  color: #ffffff; }
+
+a:hover {
+  color: #c1f3ff; }
+
+p {
+  margin: 0px;
+  padding: 0px; }
+
+ul {
+  margin: 0px;
+  padding: 0px; }
+
+li {
+  list-style: none; }

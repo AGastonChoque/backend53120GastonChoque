@@ -1,0 +1,41 @@
+<div>
+
+    <div class="v-form" data-aos="zoom-out-up" data-aos-duration="2000">
+        <form id="form" class="form">
+            <h2>Add product</h2>
+            <p type="Title:">
+                <input type="text" name="formTitle" id="formTitle" placeholder="Title" required>
+            </p>
+            <p type="Description:">
+                <input type="text" name="formDescription" id="formDescription" placeholder="Description" required>
+            </p>
+            <p type="Price:">
+                <input type="number" name="formPrice" id="formPrice" placeholder="Price" required>
+            </p>
+            <p type="Code:">
+                <input type="text" name="formCode" id="formCode" placeholder="Code" required>
+            </p>
+            <p type="Stock:">
+                <input type="number" name="formStock" id="formStock" placeholder="Stock" required>
+            </p>
+            <p type="Category:">
+                <input type="text" name="formCategory" id="formCategory" placeholder="Category" required>
+            </p>
+            <p type="Thumbnails:">
+                <input type="file" name="formImage" id="formThumbnails" placeholder="Image">
+            </p>
+            <button>
+                <input type="submit" value="Save">
+            </button>
+        </form>
+    </div>
+
+    <div class="container mt-5 mb-5">
+        <div class="row justify-content-between" id="productsContainer">
+        </div>
+    </div>
+
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/scripts/realTimeProducts.js"></script>

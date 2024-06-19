@@ -11,7 +11,11 @@ productsRouter.get("/", async (req, res) => {
         const { limit } = req.query;
         let allProducts = await products.getProducts();
         let limitProducts = allProducts.slice(0, limit);
-        limit ? res.send(limitProducts) : res.send(allProducts)
+        res.render("home", {
+            title: "Home",
+            cssName: "general.css",
+            products: limit ? limitProducts : allProducts
+        })
     } catch (error) {
         res.status(500).send({ status: "error", error: "Server ERROR, no se pudieron obtener los productos" });
         return [];
@@ -78,6 +82,7 @@ productsRouter.delete("/", async (req, res) => {
         return [];
     }
 });
+
 
 export default productsRouter
 

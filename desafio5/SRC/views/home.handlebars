@@ -1,0 +1,15 @@
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-between">
+        {{#each products}}
+        <div class="card m-2" style="width: 18rem;">
+            <a href={{this.thumbnail}}><img src={{this.thumbnail}} height="250" class="card-img-top rounded p-1"
+                    alt={{this.title}}></a>
+            <div class="card-body">
+                <h5 class="card-title">${{this.price}}</h5>
+                <p class="card-text text-secondary">{{this.title}}</p>
+                <a class="btn btn-outline-success">More...</a>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>
