@@ -1,0 +1,46 @@
+[
+	{
+		"title": "Coca Cola",
+		"description": "Coca Cola de 100Ml para disfrutar",
+		"price": 1000,
+		"thumbnail": [],
+		"code": "coc",
+		"stock": 10,
+		"status": true,
+		"category": "bebidas",
+		"id": 1
+	},
+	{
+		"title": "Fanta",
+		"description": "Fanta de 200Ml para disfrutar",
+		"price": 2000,
+		"thumbnail": [],
+		"code": "fan",
+		"stock": 20,
+		"status": true,
+		"category": "bebidas",
+		"id": 2
+	},
+	{
+		"title": "Pepsi",
+		"description": "pepsi de 300Ml para disfrutar",
+		"price": 3000,
+		"thumbnail": [],
+		"code": "pep",
+		"stock": 30,
+		"status": true,
+		"category": "bebidas",
+		"id": 3
+	},
+	{
+		"title": "Pepsi",
+		"description": "pepsi de 300Ml para disfrutar",
+		"price": 3000,
+		"thumbnail": [],
+		"code": "123",
+		"stock": 30,
+		"status": true,
+		"category": "bebidas",
+		"id": 4
+	}
+]
