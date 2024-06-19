@@ -17,6 +17,7 @@ import initializatePassport from "./config/passportConfig.js";
 import sessionsRouter from "./routes/sessionsRouter.js";
 import config from "./config.js";
 import errorHandler from "./middlewares/errors/index.js"
+import { addLogger } from "./utils/logger.js";
 
 
 const app = express();
@@ -54,6 +55,7 @@ app.set("view engine", "handlebars");
 initializatePassport();
 app.use(passport.initialize());
 
+app.use(addLogger)
 
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
@@ -62,6 +64,7 @@ app.use("/api/sessions", usersRouter);
 app.use("/api/sessions", sessionsRouter);
 
 app.use(errorHandler);
+
 
 
 const PORT = config.port

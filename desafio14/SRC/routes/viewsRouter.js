@@ -31,6 +31,7 @@ viewsRouter.get('/', userVerify("jwt", ["PUBLIC", "USER", "ADMIN"]), async (req,
   } catch {
     /* res.status(500).send({ status: "error", error: "Server ERROR, no se pudo obtener la vista del Home" })
     return []; */
+    req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'viewsRouterHome fatal error'`);
     CustomError.createError({
       name: 'viewsRouterHome error',
       cause: 'Server fail to view home',
@@ -42,6 +43,7 @@ viewsRouter.get('/', userVerify("jwt", ["PUBLIC", "USER", "ADMIN"]), async (req,
 
 viewsRouter.get("/realtimeproducts", userVerify('jwt', ["ADMIN"]), passportCall('jwt'), async (req, res) => {
   try {
+    req.logger.info(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'viewsRouterRealTimeProducts entry'`);
     res.render("realTimeProducts", {
       title: "Real time products",
       cssName: "realTimeProducts.css",
@@ -50,6 +52,7 @@ viewsRouter.get("/realtimeproducts", userVerify('jwt', ["ADMIN"]), passportCall(
   } catch {
     /* res.status(500).send({ status: "error", error: "Server ERROR, no se pudo obtener la vista realtimeproducts" })
     return []; */
+    req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'viewsRouterRealTimeProducts fatal error'`);
     CustomError.createError({
       name: 'viewsRouterRealTimeProducts error',
       cause: 'Server fail to view realtimeproducts',
@@ -77,6 +80,7 @@ viewsRouter.get("/products", userVerify("jwt", ["USER", "ADMIN"]), passportCall(
   } catch {
     /* res.status(500).send({ status: "error", error: "Server ERROR, no se pudo obtener la vista de productos" })
     return []; */
+    req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'viewsRouterProducts fatal error'`);
     CustomError.createError({
       name: 'viewsRouterProducts error',
       cause: 'Server fail to view products',
@@ -88,7 +92,7 @@ viewsRouter.get("/products", userVerify("jwt", ["USER", "ADMIN"]), passportCall(
 
 viewsRouter.get("/carts/:cId", userVerify('jwt', ["USER", "ADMIN"]), passportCall('jwt'), async (req, res) => {
   try {
-    const cId = req.params.cId
+    const cId = req.user.user.cId
     const cart = await carts.getCartById(cId)
     res.render("cart", {
       title: "Carrito",
@@ -98,6 +102,7 @@ viewsRouter.get("/carts/:cId", userVerify('jwt', ["USER", "ADMIN"]), passportCal
   } catch {
     /* res.status(500).send({ status: "error", error: "Server ERROR, no se pudo obtener la vista del carrito" })
     return []; */
+    req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'viewsRouterCart fatal error'`);
     CustomError.createError({
       name: 'viewsRouterCart error',
       cause: 'Server fail to view cart',
@@ -113,6 +118,7 @@ viewsRouter.get("/carts", userVerify("jwt", ["ADMIN"]), passportCall('jwt'), asy
   } catch {
     /* res.status(500).send({ status: "error", error: "Server ERROR, no se pudo obtener la vista del carrito" })
     return []; */
+    req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'viewsRouterCarts fatal error'`);
     CustomError.createError({
       name: 'viewsRouterCarts error',
       cause: 'Server fail to view carts',
@@ -135,6 +141,7 @@ viewsRouter.get('/products/:pid', userVerify('jwt', ["USER", "ADMIN"]), passport
   } catch {
     /* res.status(500).send({ status: "error", error: "Server ERROR, no se pudo obtener la vista del producto" })
     return []; */
+    req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'viewsRouterProduct fatal error'`);
     CustomError.createError({
       name: 'viewsRouterProduct error',
       cause: 'Server fail to view product',
@@ -153,6 +160,7 @@ viewsRouter.get('/login', async (req, res) => {
   } catch {
     /* res.status(500).send({ status: "error", error: "Server ERROR, no se pudo obtener la vista del login" })
     return []; */
+    req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'viewsRouterLogin fatal error'`);
     CustomError.createError({
       name: 'viewsRouterLogin error',
       cause: 'Server fail to view login',
@@ -171,6 +179,7 @@ viewsRouter.get('/register', async (req, res) => {
   } catch {
     /* res.status(500).send({ status: "error", error: "Server ERROR, no se pudo obtener la vista del register" })
     return []; */
+    req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'viewsRouterRegister fatal error'`);
     CustomError.createError({
       name: 'viewsRouterRegister error',
       cause: 'Server fail to view register',
@@ -182,6 +191,7 @@ viewsRouter.get('/register', async (req, res) => {
 
 viewsRouter.get('/failRegister', async (req, res) => {
   try {
+    req.logger.info(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'viewsRouterFailRegister entry'`);
     res.render("failRegister", {
       title: "Register error",
       cssName: "general.css"
@@ -189,6 +199,7 @@ viewsRouter.get('/failRegister', async (req, res) => {
   } catch {
     /* res.status(500).send({ status: "error", error: "Server ERROR, no se pudo obtener la vista del register" })
     return []; */
+    req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'viewsRouterFailRegister fatal error'`);
     CustomError.createError({
       name: 'viewsRouterFailRegister error',
       cause: 'Server fail to view failregister',
@@ -200,6 +211,7 @@ viewsRouter.get('/failRegister', async (req, res) => {
 
 viewsRouter.get('/failLogin', async (req, res) => {
   try {
+    req.logger.info(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'viewsRouterFailLogin entry'`);
     res.render("failLogin", {
       title: "Login error",
       cssName: "general.css"
@@ -207,6 +219,7 @@ viewsRouter.get('/failLogin', async (req, res) => {
   } catch {
     /* res.status(500).send({ status: "error", error: "Server ERROR, no se pudo obtener la vista del register" })
     return []; */
+    req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'viewsRouterFailLogin fatal error'`);
     CustomError.createError({
       name: 'viewsRouterFailLogin error',
       cause: 'Server fail to view failLogin',
@@ -226,6 +239,7 @@ viewsRouter.get('/current', userVerify("jwt", ["USER", "ADMIN"]), passportCall('
   } catch {
     /* res.status(500).send({ status: "error", error: "Server ERROR, no se pudo obtener la vista del Home" })
     return []; */
+    req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'viewsRouterCurrent fatal error'`);
     CustomError.createError({
       name: 'viewsRouterCurrent error',
       cause: 'Server fail to view current',
@@ -248,6 +262,7 @@ viewsRouter.get('/:cId/purchase', userVerify('jwt', ["USER", "ADMIN"]), async (r
   } catch {
     /* res.status(500).send({ status: "error", error: "Server ERROR, no se pudo obtener la vista del carrito" })
     return []; */
+    req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'viewsRouterPurchase fatal error'`);
     CustomError.createError({
       name: 'viewsRouterPurchase error',
       cause: 'Server fail to view purchase',
@@ -256,6 +271,28 @@ viewsRouter.get('/:cId/purchase', userVerify('jwt', ["USER", "ADMIN"]), async (r
     });
   }
 });
+
+viewsRouter.get('/loggerTest', async (req, res) => {
+  try {
+    req.logger.debug(`Este es el test del logger debug`);
+    req.logger.http(`Este es el test del logger http`);
+    req.logger.info(`Este es el test del logger info`);
+    req.logger.warning(`Este es el test del logger warning`);
+    req.logger.error(`Este es el test del logger error`);
+    req.logger.fatal(`Este es el test del logger fatal`);
+    /* req.logger.info(`${new Date().toDateString()} ${req.method} ${req.url}`); */
+    res.redirect("/products")
+  } catch {
+    req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}`);
+    CustomError.createError({
+      name: 'viewsRouterLogger error',
+      cause: 'Server fail to view test logger',
+      message: 'Server ERROR, no se pudo obtener la vista del test logger',
+      code: ErrorCodes.DATABASE_ERROR
+    });
+  }
+});
+
 
 
 export default viewsRouter

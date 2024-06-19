@@ -17,11 +17,13 @@ const carts = new cartsController();
 
 usersRouter.post("/register", passport.authenticate("register", { failureRedirect: "/failRegister", session: false }), async (req, res) => {
   try {
+    req.logger.info(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'usersRouterRegister new user Register'`);
     return res.redirect("/login");
   } catch (error) {
     req.user.failRegister = true;
     /* res.status(500).send({ status: "error", error: error.message })
     return []; */
+    req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'usersRouterRegister error'`);
     CustomError.createError({
       name: 'usersRouterRegister error',
       cause: 'Server fail to register User',
@@ -55,6 +57,7 @@ usersRouter.post("/login", passport.authenticate("login", { failureRedirect: "/f
     user.failLogin = true;
     /* res.status(500).send({ status: "error", error: error.message })
     return []; */
+    req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'usersRouterLogin error'`);
     CustomError.createError({
       name: 'usersRouterLogin error',
       cause: 'Server fail to login user',
@@ -72,6 +75,7 @@ usersRouter.get("/logout", passportCall('jwt'), (req, res) => {
   } catch (error) {
     /* res.status(500).send({ status: "error", error: error.message })
     return []; */
+    req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'usersRouterLogout error'`);
     CustomError.createError({
       name: 'usersRouterLogout error',
       cause: 'Server fail to logout User',
@@ -89,6 +93,7 @@ usersRouter.get('/current', userVerify('jwt', ["USER", "ADMIN"]), passportCall('
     req.user = user
     res.send(req.user);
   } catch (error) {
+    req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'usersRouterCurrent error'`);
     CustomError.createError({
       name: 'usersRouterCurrent error',
       cause: 'Server fail to charge current User',
@@ -102,6 +107,7 @@ usersRouter.get('/private', userVerify('jwt', ["ADMIN"]), passportCall('jwt'), a
   try {
     res.send(req.user);
   } catch (error) {
+    req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'usersRouterPrivate error'`);
     CustomError.createError({
       name: 'usersRouterPrivate error',
       cause: 'Server fail to chargue private route',

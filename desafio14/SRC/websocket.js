@@ -50,8 +50,6 @@ const webSocket = (io) => {
     });
 
     socket.on("buyCart", async (cId, userEmail) => {
-      console.log(cId);
-      console.log(userEmail);
       const { purchasedProducts, notPurchased } = await carts.buyCart(cId)
       let cartData = await carts.getCartById(cId);
       let newTiket = await tikets.createTiket(purchasedProducts, cId)

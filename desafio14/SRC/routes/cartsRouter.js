@@ -21,6 +21,7 @@ cartsRouter.get("/", async (req, res) => {
     } catch (error) {
         /* res.status(500).send({ status: "error", error: "Server ERROR, no se pudieron obtener los carritos" });
         return []; */
+        req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'cartsRouterGet fatal error'`);
         CustomError.createError({
             name: 'cartsRouterGet error',
             cause: 'Server fail to charge carts',
@@ -34,13 +35,16 @@ cartsRouter.post('/', async (req, res) => {
     try {
         try {
             const result = await carts.addCart();
+            req.logger.info(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'cartsRouterPost entry'`);
             res.send(result);
         } catch (error) {
+            req.logger.error(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'cartsRouterPost error'`);
             res.status(400).send(error.message);
         }
     } catch {
         /* res.status(500).send({ status: "error", error: "Server ERROR, no se pudo agregar el carrito" })
         return []; */
+        req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'cartsRouterPost fatal error'`);
         CustomError.createError({
             name: 'cartsRouterPost error',
             cause: 'Server fail to post carts',
@@ -56,13 +60,16 @@ cartsRouter.post('/:cId/products/:pId', userVerify('jwt', ["USER"]), async (req,
             const cId = req.params.cId;
             const pId = req.params.pId;
             const result = await carts.updateCart(cId, pId);
+            req.logger.info(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'cartsRouterPostProduct entry'`);
             res.send(result);
         } catch (error) {
+            req.logger.error(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'cartsRouterPostProduct error'`);
             res.status(400).send(error.message);
         }
     } catch {
         /* res.status(500).send({ status: "error", error: "Server ERROR, no se pudo agregar el carrito" })
         return []; */
+        req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'cartsRouterPostProduct fatal error'`);
         CustomError.createError({
             name: 'cartsRouterPostProduct error',
             cause: 'Server fail to post product in cart',
@@ -78,13 +85,16 @@ cartsRouter.put('/:cId', userVerify('jwt', ["ADMIN"]), async (req, res) => {
             const cId = req.params.cId;
             const newCart = req.body.newCart;
             const result = await carts.updateAllCart(cId, newCart);
+            req.logger.info(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'cartsRouterPut entry'`);
             res.send(result);
         } catch (error) {
+            req.logger.error(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'cartsRouterPut error'`);
             res.status(400).send(error.message);
         }
     } catch {
         /* res.status(500).send({ status: "error", error: "Server ERROR, no se pudo agregar el carrito" })
         return []; */
+        req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'cartsRouterPut fatal error'`);
         CustomError.createError({
             name: 'cartsRouterPut error',
             cause: 'Server fail to upload all cart',
@@ -99,13 +109,16 @@ cartsRouter.delete('/:cId', userVerify('jwt', ["ADMIN"]), async (req, res) => {
         try {
             const cId = req.params.cId;
             const result = await carts.deleteCart(cId);
+            req.logger.info(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'cartsRouterDelete entry'`);
             res.send(result);
         } catch (error) {
+            req.logger.error(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'cartsRouterDelete error'`);
             res.status(400).send(error.message);
         }
     } catch {
         /* res.status(500).send({ status: "error", error: "Server ERROR, no se pudo agregar el carrito" })
         return []; */
+        req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'cartsRouterDelete fatal error'`);
         CustomError.createError({
             name: 'cartsRouterDelete error',
             cause: 'Server fail to delete cart',
@@ -121,13 +134,16 @@ cartsRouter.delete('/:cId/products/:pId', userVerify('jwt', ["USER", "ADMIN"]), 
             const cId = req.params.cId;
             const pId = req.params.pId;
             const result = await carts.deleteProductInCart(cId, pId);
+            req.logger.info(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'cartsRouterDeleteProduct entry'`);
             res.send(result);
         } catch (error) {
+            req.logger.error(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'cartsRouterDeleteProduct error'`);
             res.status(400).send(error.message);
         }
     } catch {
         /* res.status(500).send({ status: "error", error: "Server ERROR, no se pudo agregar el carrito" })
         return []; */
+        req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'cartsRouterDeleteProduct fatal error'`);
         CustomError.createError({
             name: 'cartsRouterDeleteProduct error',
             cause: 'Server fail to delete product in cart',
@@ -142,13 +158,16 @@ cartsRouter.get('/:cId/purchase', userVerify('jwt', ["USER", "ADMIN"]), async (r
         try {
             const cId = req.params.cId;
             const result = await carts.buyCart(cId);
+            req.logger.info(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'cartsRouterGetPurchase entry'`);
             res.send(result);
         } catch (error) {
+            req.logger.error(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'cartsRouterGetPurchase error'`);
             res.status(400).send(error.message);
         }
     } catch {
         /* res.status(500).send({ status: "error", error: "Server ERROR, no se pudo agregar su compra" })
         return []; */
+        req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'cartsRouterGetPurchase fatal error'`);
         CustomError.createError({
             name: 'cartsRouterGetPurchase error',
             cause: 'Server fail to purchase cart',

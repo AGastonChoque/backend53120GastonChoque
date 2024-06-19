@@ -23,6 +23,7 @@ export default {
     PRIVATE_KEY_jWT: process.env.PRIVATE_KEY_jWT,
     APP_EMAIL_NAME: process.env.APP_EMAIL_NAME,
     APP_EMAIL_EMAIL: process.env.APP_EMAIL_EMAIL,
-    APP_EMAIL_PASSWORD: process.env.APP_EMAIL_PASSWORD
+    APP_EMAIL_PASSWORD: process.env.APP_EMAIL_PASSWORD,
+    LOGGER_MODE: process.env.LOGGER_MODE
 
 }

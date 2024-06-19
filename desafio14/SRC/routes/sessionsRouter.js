@@ -17,6 +17,7 @@ sessionsRouter.get("/github", passport.authenticate("github", {scope: ["user:ema
   } catch (error) {
     /* res.status(500).send({ status: "error", error: error.message })
     return []; */
+    req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'sessionsRouterGet error'`);
     CustomError.createError({
       name: 'sessionsRouterGet error',
       cause: 'Server fail to initializate GitHub',
@@ -39,6 +40,7 @@ sessionsRouter.get("/githubCallback", passport.authenticate("github", { failureR
     user.failLogin = true;
     /* res.status(500).send({ status: "error", error: error.message })
     return []; */
+    req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'sessionsRouterGetCallback error'`);
     CustomError.createError({
       name: 'sessionsRouterGetCallback error',
       cause: 'Server fail to charge GitHub callback',

@@ -1,0 +1,24 @@
+{"level":"debug","message":"Este es el test del logger debug"}
+{"level":"http","message":"Este es el test del logger http"}
+{"level":"info","message":"Este es el test del logger info"}
+{"level":"warning","message":"Este es el test del logger warning"}
+{"level":"error","message":"Este es el test del logger error"}
+{"level":"fatal","message":"Este es el test del logger fatal"}
+{"level":"debug","message":"Este es el test del logger debug"}
+{"level":"http","message":"Este es el test del logger http"}
+{"level":"info","message":"Este es el test del logger info"}
+{"level":"warning","message":"Este es el test del logger warning"}
+{"level":"error","message":"Este es el test del logger error"}
+{"level":"fatal","message":"Este es el test del logger fatal"}
+{"level":"debug","message":"Tue Jun 18 2024 GET /loggertest"}
+{"level":"http","message":"Este es el test del logger http"}
+{"level":"info","message":"Este es el test del logger info"}
+{"level":"warning","message":"Este es el test del logger warning"}
+{"level":"error","message":"Este es el test del logger error"}
+{"level":"fatal","message":"Este es el test del logger fatal"}
+{"level":"debug","message":"Este es el test del logger debug"}
+{"level":"http","message":"Este es el test del logger http"}
+{"level":"info","message":"Este es el test del logger info"}
+{"level":"warning","message":"Este es el test del logger warning"}
+{"level":"error","message":"Este es el test del logger error"}
+{"level":"fatal","message":"Este es el test del logger fatal"}
