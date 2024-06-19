@@ -99,14 +99,14 @@
 		"id": 9
 	},
 	{
-		"title": "Budin de pan 300Gr",
-		"description": "Porcion de budin de pan 300Gr. con dulce de leche",
-		"price": 10000,
-		"thumbnail": "",
-		"code": "bud300",
-		"stock": 100,
-		"category": "postres",
+		"title": "Salchicha",
+		"description": "Salchicha x6 unidades",
+		"price": "3000",
+		"thumbnail": [],
+		"code": "salchi34",
+		"stock": "2",
 		"status": true,
+		"category": "Comestibles",
 		"id": 10
 	}
 ]
