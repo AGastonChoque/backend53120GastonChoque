@@ -1,0 +1,92 @@
+[
+	{
+		"title": "Coca Cola",
+		"description": "Coca Cola de 500Ml para disfrutar",
+		"price": 1250,
+		"thumbnail": "none",
+		"code": "abc001",
+		"stock": 50,
+		"id": 1
+	},
+	{
+		"title": "Fanta",
+		"description": "Fanta de 500Ml para disfrutar",
+		"price": 800,
+		"thumbnail": "none",
+		"code": "abc002",
+		"stock": 100,
+		"id": 2
+	},
+	{
+		"title": "Manaos",
+		"description": "Manaos Cola de 500Ml para disfrutar",
+		"price": 2000,
+		"thumbnail": "none",
+		"code": "abc003",
+		"stock": 25,
+		"id": 3
+	},
+	{
+		"title": "Sprite",
+		"description": "Sprite de 500Ml para disfrutar",
+		"price": 900,
+		"thumbnail": "none",
+		"code": "abc004",
+		"stock": 20,
+		"id": 4
+	},
+	{
+		"title": "Pepsi",
+		"description": "Pepsi de 500Ml para disfrutar",
+		"price": 950,
+		"thumbnail": "none",
+		"code": "abc005",
+		"stock": 20,
+		"id": 5
+	},
+	{
+		"title": "Coca Cola Zero Azucar",
+		"description": "Coca Cola Zero Azucar de 500Ml para disfrutar",
+		"price": 1200,
+		"thumbnail": "none",
+		"code": "abc006",
+		"stock": 20,
+		"id": 6
+	},
+	{
+		"title": "Papas fritas",
+		"description": "Papas fritas medianas",
+		"price": 999,
+		"thumbnail": "none",
+		"code": "abc007",
+		"stock": 99,
+		"id": 7
+	},
+	{
+		"title": "Hamburguesa",
+		"description": "Hamburguesa con doble queso",
+		"price": 3000,
+		"thumbnail": "none",
+		"code": "abc008",
+		"stock": 80,
+		"id": 8
+	},
+	{
+		"title": "Nuggets",
+		"description": "Nuggets medianos",
+		"price": 3000,
+		"thumbnail": "none",
+		"code": "abc009",
+		"stock": 12,
+		"id": 9
+	},
+	{
+		"title": "Sundae",
+		"description": "Sundae con salsa de chocolate",
+		"price": 1500,
+		"thumbnail": "none",
+		"code": "abc010",
+		"stock": 155,
+		"id": 10
+	}
+]
