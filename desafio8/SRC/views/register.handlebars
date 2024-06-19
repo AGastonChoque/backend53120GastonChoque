@@ -1,0 +1,35 @@
+<div class="container">
+    <div class="v-form" data-aos="zoom-out-up" data-aos-duration="2000">
+        <form id="formUsers" class="form" method="post" action="/api/sessions/register">
+            <h2>Register</h2>
+            <p type="Name:">
+                <input type="text" name="formName" id="formPaformNamessword" placeholder="Name" required>
+            </p>
+            <p type="Lastname:">
+                <input type="text" name="formLastname" id="formLastname" placeholder="Lastname" required>
+            </p>
+            <p type="Email:">
+                <input type="text" name="formEmail" id="formEmail" placeholder="Email" required>
+            </p>
+            <p type="Age:">
+                <input type="number" name="formAge" id="formAge" placeholder="Age" required>
+            </p>
+            <p type="Password:">
+                <input type="password" name="formPassword" id="formPassword" placeholder="Password" required>
+            </p>
+            <button>
+                <input type="submit" value="Register">
+            </button>
+            <div>
+                <a class="fa" href="/login">Login</a>
+            </div>
+        </form>
+    </div>
+
+    {{#if failLogin}}
+    <script type="text/javascript">
+        alert('Register Failed!');
+    </script>
+    {{/if}}
+
+</div>

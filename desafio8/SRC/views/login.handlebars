@@ -1,0 +1,26 @@
+<div class="container">
+    <div class="v-form" data-aos="zoom-out-up" data-aos-duration="2000">
+        <form id="formUsers" class="form" method="post" action="/api/sessions/login">
+            <h2>Login</h2>
+            <p type="Email:">
+                <input type="text" name="formEmail" id="formEmail" placeholder="Email" required>
+            </p>
+            <p type="Password:">
+                <input type="password" name="formPassword" id="formPassword" placeholder="Password" required>
+            </p>
+            <button>
+                <input type="submit" value="Login">
+            </button>
+            <div>
+                <a class="fa" href="/register">Register</a>
+            </div>
+        </form>
+    </div>
+
+    {{#if failLogin}}
+    <script type="text/javascript">
+        alert('Login Failed!');
+    </script>
+    {{/if}}
+
+</div>
