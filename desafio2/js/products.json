@@ -1,0 +1,20 @@
+[
+	{
+		"title": "Coca Cola Zero Azucar",
+		"description": "Coca Cola de 500Ml para disfrutar",
+		"price": 900,
+		"thumbnail": "none",
+		"code": "abc123",
+		"stock": 40,
+		"id": 1
+	},
+	{
+		"title": "Manaos",
+		"description": "Manaos Cola de 500Ml para disfrutar",
+		"price": 2000,
+		"thumbnail": "none",
+		"code": "abc12345",
+		"stock": 25,
+		"id": 3
+	}
+]
