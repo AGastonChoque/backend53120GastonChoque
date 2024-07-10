@@ -6,6 +6,8 @@ import cookieParser from "cookie-parser";
 import mongoStore from "connect-mongo";
 import passport from "passport";
 import cors from "cors";
+import swaggerJsdoc from "swagger-jsdoc"
+import swaggerUiExpress from "swagger-ui-express"
 
 import productsRouter from "./routes/productsRouter.js";
 import cartsRouter from "./routes/cartsRouter.js";
@@ -64,6 +66,19 @@ app.use("/api/sessions", usersRouter);
 app.use("/api/sessions", sessionsRouter);
 
 app.use(errorHandler);
+
+const swaggerOptions = {
+  definition: {
+      openapi: '3.0.1',
+      info: {
+          title: 'Documentación sistema AdoptMe',
+          description: 'Esta documentación cubre toda la API habilitada para AdoptMe',
+      },
+  },
+  apis: ['./src/docs/**/*.yaml'],
+};
+const specs = swaggerJsdoc(swaggerOptions);
+app.use('/api/docs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
 
 

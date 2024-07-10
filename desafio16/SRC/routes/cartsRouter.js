@@ -31,6 +31,25 @@ cartsRouter.get("/", async (req, res) => {
     }
 });
 
+cartsRouter.get("/:cId", async (req, res) => {
+    try {
+        const cId = req.params.cId;
+        const result = await carts.getCartById(cId);
+            req.logger.info(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'cartsRouterGetCart entry'`);
+            res.send(result);
+    } catch (error) {
+        /* res.status(500).send({ status: "error", error: "Server ERROR, no se pudieron obtener los carritos" });
+        return []; */
+        req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'cartRouterGet fatal error'`);
+        CustomError.createError({
+            name: 'cartRouterGet error',
+            cause: 'Server fail to charge cart',
+            message: 'Server ERROR, no se pudo obtener el carrito',
+            code: ErrorCodes.DATABASE_ERROR
+        });
+    }
+});
+
 cartsRouter.post('/', async (req, res) => {
     try {
         try {
@@ -99,6 +118,25 @@ cartsRouter.put('/:cId', userVerify('jwt', ["ADMIN"]), async (req, res) => {
             name: 'cartsRouterPut error',
             cause: 'Server fail to upload all cart',
             message: 'Server ERROR, no se pudo modificar todo el carrito',
+            code: ErrorCodes.DATABASE_ERROR
+        });
+    }
+});
+
+cartsRouter.post("/:cId/clear", async (req, res) => {
+    try {
+        const cId = req.params.cId;
+        const result = await carts.clearCart(cId);
+            req.logger.info(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'cartsRouterGetClearCart entry'`);
+            res.send(result);
+    } catch (error) {
+        /* res.status(500).send({ status: "error", error: "Server ERROR, no se pudieron obtener los carritos" });
+        return []; */
+        req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'cartsRouterGetClearCart fatal error'`);
+        CustomError.createError({
+            name: 'cartsRouterGetClearCart error',
+            cause: 'Server fail to clear cart',
+            message: 'Server ERROR, no se pudo limpiar el carrito',
             code: ErrorCodes.DATABASE_ERROR
         });
     }
