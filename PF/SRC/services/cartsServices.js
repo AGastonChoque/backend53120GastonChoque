@@ -47,7 +47,8 @@ export default class cartsServices {
                     return (`El producto id: "${pId}" del carrito id: "${cId}" aumento su cantidad`)
                 }
             } else {
-                throw new Error(`El producto con el id: ${pId} que intenta agregar no existe o es propio.`)
+                /* throw new Error(`El producto con el id: ${pId} que intenta agregar no existe o es propio.`) */
+                return userEmail
             }
         }
     }
