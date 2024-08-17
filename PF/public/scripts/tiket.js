@@ -19,7 +19,7 @@ function renderTiket(tiketData) {
         <tr key=${prod.product._id}>
         <th scope="row">${accu}</th>
         <td>
-            <a href="http://localhost:8080/products/${prod.product._id}">
+            <a href="https://backend53120gastonchoque.onrender.com/products/${prod.product._id}">
                 <img src="${prod.product.thumbnail}" alt="${prod.product.title}" width="50" />
             </a>
         </td>

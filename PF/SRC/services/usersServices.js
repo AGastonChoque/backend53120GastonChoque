@@ -64,7 +64,7 @@ export default class usersServices {
             <p><b>Atención!</b>: si usted NO ha solicitado este mail, simplemente ignórelo</p>
             <p>Recuerda que este mail tiene una vigencia de 5 minutos, y no permite colocar la misma contraseña.</p>
             <p>Para generar una nueva contraseña, ingrese por favor al siguiente enlace:</p>
-                <p><a href="http://localhost:8080/restorepassword?access_token=${token}">http://localhost:8080/restorepassword?access_token=${token}</a></p>
+                <p><a href="https://backend53120gastonchoque.onrender.com/restorepassword?access_token=${token}">https://backend53120gastonchoque.onrender.com/restorepassword?access_token=${token}</a></p>
           </div>`
             });
 
@@ -100,7 +100,7 @@ export default class usersServices {
             <h1>¡Tu contraseña fue cambiada exitosamente!</h1>
             <p>Este es un correo informativo, tu contraseña fue cambiada correctamente.</p>
             <p>Ingresa a nuestro sitio web mediante el siguiente enlace:</p>
-                <p><a href="http://localhost:8080/login">http://localhost:8080/login</a></p>
+                <p><a href="https://backend53120gastonchoque.onrender.com/login">https://backend53120gastonchoque.onrender.com/login</a></p>
           </div>`
             });
             return (`El usuario con el mail: ${mail} ha modificado correctamente su password.`)

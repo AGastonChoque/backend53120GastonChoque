@@ -68,7 +68,7 @@ viewsRouter.get("/products", userVerify("jwt", ["USER", "PREMIUM", "ADMIN"]), pa
   try {
     const { limit, page, query, sort, status } = req.query;
     let result = await products.getProducts(limit, page, query, sort, status);
-    let baseURL = "http://localhost:8080/products"
+    let baseURL = "https://backend53120gastonchoque.onrender.com/products"
     result.prevLink = result.prevPage ? `${baseURL}?page=${result.prevPage}` : null,
       result.nextLink = result.nextPage ? `${baseURL}?page=${result.nextPage}` : null,
       result.isValid = !(page <= 0 || page > result.totalPages);

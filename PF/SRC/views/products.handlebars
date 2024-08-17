@@ -3,13 +3,13 @@
     <div class="row justify-content-between">
         {{#each data.docs}}
         <div class="card m-2" style="width: 18rem;">
-            <a href="http://localhost:8080/products/{{this._id}}">
+            <a href="https://backend53120gastonchoque.onrender.com/products/{{this._id}}">
                 <img src="{{this.thumbnail}}" height="250" class="card-img-top rounded p-1" alt="{{this.title}}">
             </a>
             <div class="card-body">
                 <h5 class="card-title">${{this.price}}</h5>
                 <p class="card-text text-secondary">{{this.title}}</p>
-                <a href="http://localhost:8080/products/{{this._id}}" class="btn btn-outline-success">More...</a>
+                <a href="https://backend53120gastonchoque.onrender.com/products/{{this._id}}" class="btn btn-outline-success">More...</a>
             </div>
         </div>
         {{/each}}

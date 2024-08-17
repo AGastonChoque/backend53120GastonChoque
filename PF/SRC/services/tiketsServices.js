@@ -53,41 +53,6 @@ export default class tiketsServices {
         return parseFloat(product.price)
     }
 
-    /* async sendEmailPurchase (userMail) {
-            let tiketData = await this.findTiketByEmail({purchaser: userMail});
-            const email = await transport.sendMail({
-                from: `AppCoderEmail <${config.APP_EMAIL_EMAIL}>`,
-                to: 'controlinteligentedelhogar@gmail.com',
-                subject: 'Te enviamos tu tiket de compra!',
-                html: let accu = 0
-                let productTiket = "";
-                tiketData.products.forEach((prod) => {
-                    const subt = parseFloat(prod.product.price)*prod.quantity
-                    accu++
-                    productTiket += `
-                    <tr key=${prod.product._id}>
-                    <th scope="row">${accu}</th>
-                    <td>
-                        <a href="http://localhost:8080/products/${prod.product._id}">
-                            <img src="${prod.product.thumbnail}" alt="${prod.product.title}" width="50" />
-                        </a>
-                    </td>
-                    <td>${prod.product.title}</td>
-                    <td>${prod.quantity}</td>
-                    <td>$${prod.product.price}</td>
-                    <td>$${subt}</td>
-                </tr>
-                        `
-                }),
-                attachments: [{
-                    filename: 'arrows.jpg',
-                    path: `${__dirname}/../../public/images/arrows.jpg`,
-                    cid: 'flechas'
-                }]
-            });
-        
-    } */
-
     async sendEmailPurchase(userMail) {
         try {
             const tiketData = await this.findTiketByEmail({ purchaser: userMail });
@@ -120,7 +85,7 @@ export default class tiketsServices {
                 <tr key=${prod.product._id}>
                   <th scope="row">${itemCount}</th>
                   <td>
-                    <a href="http://localhost:8080/products/${prod.product._id}">
+                    <a href="https://backend53120gastonchoque.onrender.com/products/${prod.product._id}">
                       <img src="${prod.product.thumbnail}" alt="${prod.product.title}" width="50" />
                     </a>
                   </td>
