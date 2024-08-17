@@ -4,15 +4,19 @@
        <h3>
         Username: {{user.username}} <br>
         Nombre: {{user.complete_name}} <br>
-        email: {{user.email}}
+        Email: {{user.email}} <br>
+        Tipo de cuenta: {{user.role}}<br>
     </h3>
     {{else}}
        <h3>
         Nombre: {{user.first_name}} <br>
         Apellido: {{user.last_name}} <br>
-        edad: {{user.age}} <br>
-        email: {{user.email}}
+        Edad: {{user.age}} <br>
+        Email: {{user.email}}
+        Tipo de cuenta: {{user.role}}<br>
     </h3>
     {{/if}}
-    
+    {{#if isUser}}
+        <a href="/upLoaderPremium" class="btn btn-outline-success mt-3">Actualizar a Premium</a>
+    {{/if}}
 </div>

@@ -1,5 +1,5 @@
 {
-  "name": "desafio16",
+  "name": "proyectofinal",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -37,6 +37,9 @@
     "winston": "^3.13.0"
   },
   "devDependencies": {
-    "@faker-js/faker": "^8.4.1"
+    "@faker-js/faker": "^8.4.1",
+    "chai": "^5.1.1",
+    "mocha": "^10.7.3",
+    "supertest": "^7.0.0"
   }
 }

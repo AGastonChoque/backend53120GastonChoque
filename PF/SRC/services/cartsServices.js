@@ -30,13 +30,13 @@ export default class cartsServices {
         return await this.carts.deleteCart(cId)
     }
 
-    async updateCart(cId, pId) {
+    async updateCart(cId, pId, userEmail) {
         let cart = await this.carts.findOne(cId)
         if (!cart) {
             throw new Error(`El carrito con el id: "${cId}" no existe.`);
         } else {
             let inProductsById = await this.products.findOneId(pId)
-            if (inProductsById) {
+            if (inProductsById && userEmail != inProductsById.owner) {
                 let valQuantity = 1
                 const enElCarrito = cart.products.find(prod => prod.product.toString() === pId);
                 if (!enElCarrito) {
@@ -47,7 +47,7 @@ export default class cartsServices {
                     return (`El producto id: "${pId}" del carrito id: "${cId}" aumento su cantidad`)
                 }
             } else {
-                throw new Error(`El producto con el id: ${pId} que intenta agregar no existe.`)
+                throw new Error(`El producto con el id: ${pId} que intenta agregar no existe o es propio.`)
             }
         }
     }
@@ -113,7 +113,7 @@ export default class cartsServices {
                     product: product.product._id,
                     quantity: product.quantity
                   });
-            } else if (productStock > product.quantity) {
+            } else if (productStock >= product.quantity) {
                 await this.productServices.updateProduct(product.product, { ...product.product, stock: productStock - product.quantity })
                 purchasedProducts.products.push({
                     product: product.product._id,

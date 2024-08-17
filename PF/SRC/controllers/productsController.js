@@ -9,8 +9,8 @@ export class productsController {
     }
 
 
-    async addProduct(product) {
-        return await this.productsServices.addProduct(product)
+    async addProduct(product, userEmail, userRole) {
+        return await this.productsServices.addProduct(product, userEmail, userRole)
     }
 
     async getProducts(limit, page, query, sort, status) {
@@ -25,8 +25,8 @@ export class productsController {
         return await this.productsServices.updateProduct(id, newUpdate)
     }
 
-    async deleteProduct(id) {
-        return await this.productsServices.deleteProduct(id)
+    async deleteProduct(id, userEmail, userRole) {
+        return await this.productsServices.deleteProduct(id, userEmail, userRole)
     }
 
 }

@@ -1,5 +1,9 @@
 const socket = io();
 
+const userDataElement = document.getElementById('userData');
+const userEmail = userDataElement.getAttribute('data-user-email');
+const userRole = userDataElement.getAttribute('data-user-role');
+
 getProducts()
 
 function getProducts() {
@@ -17,7 +21,7 @@ function renderProducts(productsData) {
                 <div class="card-body">
                     <h5 id="price" class="card-title">$${product.price}</h5>
                     <p id="title" class="card-text text-secondary">${product.title}</p>
-                    <a class="btn btn-outline-danger" onclick="deleteProductById('${product._id}')">Delete</a>
+                    <a class="btn btn-outline-danger" onclick="deleteProductById('${product._id}', '${userEmail}', '${userRole}')">Delete</a>
                 </div>
             </div>
             `
@@ -52,7 +56,7 @@ form.addEventListener('submit', (event) => {
         thumbnail: thumbnail
     };
 
-    socket.emit("addProduct", product)
+    socket.emit("addProduct", product, userEmail, userRole)
 
     document.getElementById('formTitle').value = "";
     document.getElementById('formDescription').value = "";
@@ -64,6 +68,6 @@ form.addEventListener('submit', (event) => {
 
 });
 
-function deleteProductById(pId) {
-    socket.emit("deleteProduct", pId);
+function deleteProductById(pId, userEmail, userRole) {
+    socket.emit("deleteProduct", pId, userEmail, userRole);
 }

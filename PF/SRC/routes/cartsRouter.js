@@ -194,10 +194,13 @@ cartsRouter.delete('/:cId/products/:pId', userVerify('jwt', ["USER", "ADMIN"]), 
 cartsRouter.get('/:cId/purchase', userVerify('jwt', ["USER", "ADMIN"]), async (req, res) => {
     try {
         try {
+            const userEmail = req.user.user.email
             const cId = req.params.cId;
-            const result = await carts.buyCart(cId);
+            const { purchasedProducts, notPurchased } = await carts.buyCart(cId)
+            let newTiket = await tikets.createTiket(purchasedProducts, cId)
+            let sendEmailPurchase = await tikets.sendEmailPurchase(userEmail)
             req.logger.info(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'cartsRouterGetPurchase entry'`);
-            res.send(result);
+            res.send(purchasedProducts);
         } catch (error) {
             req.logger.error(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'cartsRouterGetPurchase error'`);
             res.status(400).send(error.message);
@@ -214,15 +217,6 @@ cartsRouter.get('/:cId/purchase', userVerify('jwt', ["USER", "ADMIN"]), async (r
         });
     }
 });
-
-/* cartsRouter.get('/sendTiketEmail', userVerify('jwt', ["USER", "ADMIN"]), async (req, res) => {
-    try {
-        
-    } catch {
-        res.status(500).send({ status: "error", error: "Server ERROR, no se pudo enviar el email de su compra" })
-        return [];
-    }
-}); */
 
 export default cartsRouter
 

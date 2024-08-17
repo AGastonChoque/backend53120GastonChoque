@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const usersCollection = "users";
+/* const usersCollection = "users_test"; */
 
 const userSchema = mongoose.Schema({
     username: {
@@ -32,12 +33,23 @@ const userSchema = mongoose.Schema({
         type: String
     },
     role: {
-        type: String
+        type: String,
+        enum: ['USER', 'PREMIUM', 'ADMIN' ],
+        default: 'USER'
     },
     cId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'carts'
       },
+    documents: {
+        type: [{
+            name: String,
+            reference: String
+        }]
+      },
+    last_connection: {
+        type: Date
+    }
 });
 
 const usersModel = mongoose.model(usersCollection, userSchema);

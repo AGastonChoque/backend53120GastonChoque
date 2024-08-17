@@ -23,7 +23,7 @@ export default class productsMongo {
     }
 
     async findAndUpdateIdNewUpdate(id, newUpdate) {
-        return await productsModel.findOneAndUpdate({ _id: id }, newUpdate)
+        return await productsModel.findOneAndUpdate({ _id: id }, newUpdate, { new: true })
     }
 
     async deleteOneId(id) {

@@ -38,7 +38,7 @@ productsRouter.get("/", async (req, res) => {
     }
 });
 
-productsRouter.get("/:pId", userVerify('jwt', ["USER", "ADMIN"]), async (req, res) => {
+productsRouter.get("/:pId", userVerify('jwt', ["PREMIUM", "ADMIN"]), async (req, res) => {
     try {
         try {
             const pId = req.params.pId;
@@ -60,11 +60,13 @@ productsRouter.get("/:pId", userVerify('jwt', ["USER", "ADMIN"]), async (req, re
     }
 })
 
-productsRouter.post('/', userVerify('jwt', ["ADMIN"]), async (req, res) => {
+productsRouter.post('/', userVerify('jwt', ["ADMIN", "PREMIUM"]), async (req, res) => {
     try {
         try {
             const newProduct = req.body;
-            const result = await products.addProduct(newProduct);
+            const userEmail = req.user.user.email;
+            const userRole = req.user.user.role;
+            const result = await products.addProduct(newProduct, userEmail, userRole);
             req.logger.info(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'productRouterPost entry'`);
             res.send(result);
         } catch (error) {
@@ -84,11 +86,13 @@ productsRouter.post('/', userVerify('jwt', ["ADMIN"]), async (req, res) => {
     }
 });
 
-productsRouter.put("/", userVerify('jwt', ["ADMIN"]), async (req, res) => {
+productsRouter.put("/", userVerify('jwt', ["ADMIN", "PREMIUM"]), async (req, res) => {
     try {
         try {
             const id = req.body.id;
-            const updateProduct = req.body.newProduct
+            const updateProduct = req.body.newProduct;
+            const userEmail = req.user.user.email;
+            const userRole = req.user.user.role;
             const result = await products.updateProduct(id, updateProduct);
             req.logger.info(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'productRouterPost entry'`);
             res.send(result);
@@ -110,11 +114,13 @@ productsRouter.put("/", userVerify('jwt', ["ADMIN"]), async (req, res) => {
     }
 });
 
-productsRouter.delete("/", userVerify('jwt', ["ADMIN"]), async (req, res) => {
+productsRouter.delete("/", userVerify('jwt', ["ADMIN", "PREMIUM"]), async (req, res) => {
     try {
         try {
             const id = req.body.id;
-            const result = await products.deleteProduct(id);
+            const userEmail = req.user.user.email;
+            const userRole = req.user.user.role;
+            const result = await products.deleteProduct(id, userEmail, userRole);
             req.logger.info(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'productRouterDelete entry'`);
             res.send(result);
         } catch (error) {
@@ -134,7 +140,7 @@ productsRouter.delete("/", userVerify('jwt', ["ADMIN"]), async (req, res) => {
     }
 });
 
-productsRouter.get("/generate/mockingproducts", userVerify('jwt', ["ADMIN", "USER"]), async (req, res) => {
+productsRouter.get("/generate/mockingproducts", userVerify('jwt', ["ADMIN"]), async (req, res) => {
     try {
         try {
             let result = generateRandomProducts(100)

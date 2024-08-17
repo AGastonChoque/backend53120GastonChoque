@@ -17,13 +17,15 @@ const carts = new cartsController()
 const tikets = new tiketsController()
 
 
-viewsRouter.get('/', userVerify("jwt", ["PUBLIC", "USER", "ADMIN"]), async (req, res) => {
+viewsRouter.get('/', userVerify("jwt", ["PUBLIC", "USER", "PREMIUM", "ADMIN"]), async (req, res) => {
   try {
+    const isUser = req.user.user.role === 'USER';
     if (req.user.user) {
       res.render("index", {
         title: "Home",
         cssName: "general.css",
-        user: req.user.user
+        user: req.user.user,
+        isUser: isUser
     })
     } else {
     res.redirect("/login")
@@ -41,7 +43,7 @@ viewsRouter.get('/', userVerify("jwt", ["PUBLIC", "USER", "ADMIN"]), async (req,
   }
 })
 
-viewsRouter.get("/realtimeproducts", userVerify('jwt', ["ADMIN"]), passportCall('jwt'), async (req, res) => {
+viewsRouter.get("/realtimeproducts", userVerify('jwt', ["ADMIN", "PREMIUM"]), passportCall('jwt'), async (req, res) => {
   try {
     req.logger.info(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'viewsRouterRealTimeProducts entry'`);
     res.render("realTimeProducts", {
@@ -62,7 +64,7 @@ viewsRouter.get("/realtimeproducts", userVerify('jwt', ["ADMIN"]), passportCall(
   }
 });
 
-viewsRouter.get("/products", userVerify("jwt", ["USER", "ADMIN"]), passportCall("jwt"), async (req, res) => {
+viewsRouter.get("/products", userVerify("jwt", ["USER", "PREMIUM", "ADMIN"]), passportCall("jwt"), async (req, res) => {
   try {
     const { limit, page, query, sort, status } = req.query;
     let result = await products.getProducts(limit, page, query, sort, status);
@@ -90,7 +92,7 @@ viewsRouter.get("/products", userVerify("jwt", ["USER", "ADMIN"]), passportCall(
   }
 })
 
-viewsRouter.get("/carts/:cId", userVerify('jwt', ["USER", "ADMIN"]), passportCall('jwt'), async (req, res) => {
+viewsRouter.get("/carts/:cId", userVerify('jwt', ["USER", "PREMIUM", "ADMIN"]), passportCall('jwt'), async (req, res) => {
   try {
     const cId = req.user.user.cId
     const cart = await carts.getCartById(cId)
@@ -128,7 +130,7 @@ viewsRouter.get("/carts", userVerify("jwt", ["ADMIN"]), passportCall('jwt'), asy
   }
 });
 
-viewsRouter.get('/products/:pid', userVerify('jwt', ["USER", "ADMIN"]), passportCall('jwt'), async (req, res) => {
+viewsRouter.get('/products/:pid', userVerify('jwt', ["USER", "PREMIUM", "ADMIN"]), passportCall('jwt'), async (req, res) => {
   try {
     const pId = req.params.pid
     const product = await products.getProductById(pId)
@@ -151,7 +153,7 @@ viewsRouter.get('/products/:pid', userVerify('jwt', ["USER", "ADMIN"]), passport
   }
 });
 
-viewsRouter.get('/login', async (req, res) => {
+viewsRouter.get('/login', userVerify('jwt', ["PUBLIC"]), async (req, res) => {
   try {
     res.render("login", {
       title: "Login",
@@ -229,7 +231,105 @@ viewsRouter.get('/failLogin', async (req, res) => {
   }
 })
 
-viewsRouter.get('/current', userVerify("jwt", ["USER", "ADMIN"]), passportCall('jwt'), async (req, res) => {
+viewsRouter.get('/forgetPassword', async (req, res) => {
+  try {
+    res.render("forgetPassword", {
+      title: "Recuperar contraseña",
+      cssName: "realTimeProducts.css"
+    });
+  } catch {
+    /* res.status(500).send({ status: "error", error: "Server ERROR, no se pudo obtener la vista del login" })
+    return []; */
+    req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'viewsRouterForgetPassword fatal error'`);
+    CustomError.createError({
+      name: 'forgetPassword error',
+      cause: 'Server fail to view forgetPassword',
+      message: 'Server ERROR, no se pudo obtener la vista del recuperador de contraseñas',
+      code: ErrorCodes.DATABASE_ERROR
+    });
+  }
+})
+
+viewsRouter.get('/restorePassword', passportCall('jwtQuery') , async (req, res) => {
+  try {
+    res.render("restorePassword", {
+      title: "Nueva contraseña!",
+      cssName: "realTimeProducts.css"
+    });
+  } catch {
+    /* res.status(500).send({ status: "error", error: "Server ERROR, no se pudo obtener la vista del login" })
+    return []; */
+    req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'viewsRouterRestorePassword fatal error'`);
+    CustomError.createError({
+      name: 'restorePassword error',
+      cause: 'Server fail to view restorePassword',
+      message: 'Server ERROR, no se pudo obtener la vista del actualizador de contraseñas',
+      code: ErrorCodes.DATABASE_ERROR
+    });
+  }
+})
+
+viewsRouter.get('/sendEmailRecover', async (req, res) => {
+  try {
+    req.logger.info(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'viewsRouterRecoverPass entry'`);
+    res.render("sendEmailRecover", {
+      title: "Correo enviado!",
+      cssName: "general.css"
+    });
+  } catch {
+    /* res.status(500).send({ status: "error", error: "Server ERROR, no se pudo obtener la vista del register" })
+    return []; */
+    req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'viewsRouterRecoverPass fatal error'`);
+    CustomError.createError({
+      name: 'viewsRouterRecoverPass error',
+      cause: 'Server fail to view recoverPass',
+      message: 'Server ERROR, no se pudo obtener la vista del recuperador de contraseñas',
+      code: ErrorCodes.DATABASE_ERROR
+    });
+  }
+})
+
+viewsRouter.get('/sendEmailRecoverFail', async (req, res) => {
+  try {
+    req.logger.info(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'viewsRouterFailRecoverPassFail entry'`);
+    res.render("sendEmailRecoverFail", {
+      title: "Correo invalido!",
+      cssName: "general.css"
+    });
+  } catch {
+    /* res.status(500).send({ status: "error", error: "Server ERROR, no se pudo obtener la vista del register" })
+    return []; */
+    req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'viewsRouterFailRecoverPass fatal error'`);
+    CustomError.createError({
+      name: 'viewsRouterFailRecoverPass error',
+      cause: 'Server fail to view recoverPassFail',
+      message: 'Server ERROR, no se pudo obtener la vista del fallido recuperador de contraseñas',
+      code: ErrorCodes.DATABASE_ERROR
+    });
+  }
+})
+
+viewsRouter.get('/failRecover', async (req, res) => {
+  try {
+    req.logger.info(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'viewsRouterFailRecoverPassFail entry'`);
+    res.render("failRecover", {
+      title: "Error en correo o contraseña!",
+      cssName: "general.css"
+    });
+  } catch {
+    /* res.status(500).send({ status: "error", error: "Server ERROR, no se pudo obtener la vista del register" })
+    return []; */
+    req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'viewsRouterFailRecoverPass fatal error'`);
+    CustomError.createError({
+      name: 'viewsRouterFailRecoverPass error',
+      cause: 'Server fail to view recoverPassFail',
+      message: 'Server ERROR, no se pudo obtener la vista del fallido recuperador de contraseñas',
+      code: ErrorCodes.DATABASE_ERROR
+    });
+  }
+})
+
+viewsRouter.get('/current', userVerify("jwt", ["USER", "PREMIUM", "ADMIN"]), passportCall('jwt'), async (req, res) => {
   try {
     res.render("index", {
       title: "Home",
@@ -249,7 +349,7 @@ viewsRouter.get('/current', userVerify("jwt", ["USER", "ADMIN"]), passportCall('
   }
 })
 
-viewsRouter.get('/:cId/purchase', userVerify('jwt', ["USER", "ADMIN"]), async (req, res) => {
+viewsRouter.get('/:cId/purchase', userVerify('jwt', ["USER", "PREMIUM", "ADMIN"]), async (req, res) => {
   try {
     const user = req.user.user
     const tiket = await tikets.findTiketByEmail({purchaser: user.email})
@@ -271,6 +371,27 @@ viewsRouter.get('/:cId/purchase', userVerify('jwt', ["USER", "ADMIN"]), async (r
     });
   }
 });
+
+viewsRouter.get('/upLoaderPremium', userVerify('jwt', ["USER", "PREMIUM", "ADMIN"]), async (req, res) => {
+  try {
+    const user = req.user.user
+    res.render("upLoaderPremium", {
+      title: "Carga tu comprobante",
+      cssName: "realTimeProducts.css",
+      user: user
+    });
+  } catch {
+    /* res.status(500).send({ status: "error", error: "Server ERROR, no se pudo obtener la vista del register" })
+    return []; */
+    req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'viewsRouterUpLoaderPremium fatal error'`);
+    CustomError.createError({
+      name: 'viewsRouterUpLoaderPremium error',
+      cause: 'Server fail to view uploaderPremium',
+      message: 'Server ERROR, no se pudo obtener la vista del uploaderPremium',
+      code: ErrorCodes.DATABASE_ERROR
+    });
+  }
+})
 
 viewsRouter.get('/loggerTest', async (req, res) => {
   try {

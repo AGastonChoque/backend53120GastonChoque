@@ -45,7 +45,7 @@ const connectionBBDD = async() => {
 connectionBBDD()
 
 app.use(cors({
-  origin: "http://localhost:5500",
+  origin: "http://localhost:8080",
   methods: ["GET", "POST", "PUT", "DELETE"]
 }))
 

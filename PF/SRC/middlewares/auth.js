@@ -6,7 +6,7 @@ export const authorization = () => {
             });
         }
 
-        if (req.user.role != "Admin") {
+        if (req.user.role != "ADMIN") {
             return res.status(403).send({
                 error: 'Not permissions'
             });

@@ -83,7 +83,7 @@ const initializatePassport = () => {
             }
         }
     ))
-
+    
 
     const CLIENT_ID = config.CLIENT_ID
     const SECRET_ID = config.SECRET_ID
@@ -147,6 +147,22 @@ const initializatePassport = () => {
         }
     )
     )
+
+    passport.use("jwtQuery", new JWTStratergy(
+        {
+            jwtFromRequest: ExtractJwt.fromUrlQueryParameter('access_token'),
+            secretOrKey: PRIVATE_KEY_jWT
+        },
+        async (jwt_payload, done) => {
+            try {
+                return done(null, jwt_payload);
+            } catch (error) {
+                return done(error);
+            }
+        }
+    )
+    )
+
 }
 
 const cookieExtractor = (req) => {

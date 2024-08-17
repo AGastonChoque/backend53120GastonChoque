@@ -18,45 +18,46 @@ export const passportCall = (strategy) => {
 export const userVerify = (strategy, allowedRoles) => {
     return async (req, res, next) => {
         if (allowedRoles.includes("PUBLIC")) {
-            if (allowedRoles.includes("ADMIN") || allowedRoles.includes("USER")) {
-                passport.authenticate(strategy, async (error, user, info) => {
-                    if (error) {
-                        return next(error);
-                    }
-                    if (user) {
-                        if (allowedRoles.includes(user.user.role)) {
-                            req.user=user
-                            next();
-                        } else {
-                            return res.status(403).send({ error: "Prohibido: Rol de usuario no autorizado" });
-                        }
-                    } else {
-                        return res.redirect("/login");
-                    }
-                })(req, res, next);
-            } else {
-                next()
+            if (allowedRoles.length === 1 && allowedRoles.includes("PUBLIC")) {
+                return next();
             }
-        } else {
-            passport.authenticate(strategy, async (error, user, info) => {
+
+            return passport.authenticate(strategy, async (error, user, info) => {
                 if (error) {
                     return next(error);
                 }
                 if (user) {
                     if (allowedRoles.includes(user.user.role)) {
-                        req.user=user
-                        next();
+                        req.user = user;
+                        return next();
                     } else {
                         return res.status(403).send({ error: "Prohibido: Rol de usuario no autorizado" });
                     }
                 } else {
-                    return res.redirect("/login")
-                    /* return res.status(401).send({ error: "No autorizado" }); */
+                    return res.redirect("/login");
                 }
-            })(req, res, next)
+            })(req, res, next);
+        } else {
+            return passport.authenticate(strategy, async (error, user, info) => {
+                if (error) {
+                    return next(error);
+                }
+                if (user) {
+                    if (allowedRoles.includes(user.user.role)) {
+                        req.user = user;
+                        return next();
+                    } else {
+                        return res.status(403).send({ error: "Prohibido: Rol de usuario no autorizado" });
+                    }
+                } else {
+                    return res.redirect("/login");
+                }
+            })(req, res, next);
         }
     }
 }
+
+
 
 
 

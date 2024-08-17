@@ -20,8 +20,8 @@ export class cartsController {
         return await this.cartsServices.addCart()
     }
 
-    async updateCart(cId, pId) {
-        return await this.cartsServices.updateCart(cId, pId)
+    async updateCart(cId, pId, userEmail) {
+        return await this.cartsServices.updateCart(cId, pId, userEmail)
     }
 
     async updateAllCart(cId, newCart) {

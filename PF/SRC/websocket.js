@@ -16,20 +16,20 @@ const webSocket = (io) => {
       io.emit("productsRender", productsData);
     });
 
-    socket.on("addProduct", async (productData) => {
-      await products.addProduct(productData);
+    socket.on("addProduct", async (productData, userEmail, userRole) => {
+      await products.addProduct(productData, userEmail, userRole);
       let productsData = await products.getProducts(limit);
       io.emit("productsRender", productsData);
     });
 
-    socket.on("deleteProduct", async (pId) => {
-      await products.deleteProduct(pId);
+    socket.on("deleteProduct", async (pId, userEmail, userRole) => {
+      await products.deleteProduct(pId, userEmail, userRole);
       let productsData = await products.getProducts(limit);
       io.emit("productsRender", productsData);
     });
 
-    socket.on("addProductToCart", async (cId, pId) => {
-      await carts.updateCart(cId, pId);
+    socket.on("addProductToCart", async (cId, pId, userEmail) => {
+      await carts.updateCart(cId, pId, userEmail);
     })
 
     socket.on("getCart", async (cId) => {

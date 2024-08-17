@@ -22,4 +22,26 @@ export default class usersMongo {
         return await usersModel.find();
     }
 
+    async updatePassword(uId, newPasswordHash) {
+        return await usersModel.findOneAndUpdate(
+            { _id: uId },
+            { password: newPasswordHash }
+        )
+    }
+    
+    async updateUserRole(uId, newRole) {
+        return await usersModel.findOneAndUpdate(
+            { _id: uId },
+            { role: newRole }
+        )
+    }
+
+    async updateUserDocuments(uId, files) {
+        return await usersModel.findOneAndUpdate(
+            { _id: uId },
+            { $set: { documents: files } },
+            { new: true }
+        );
+    }
+
 }

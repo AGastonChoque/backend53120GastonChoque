@@ -11,9 +11,12 @@ import config from "../config.js";
 import currentDTO from "../dao/DTOs/currentDTO.js";
 import CustomError from '../services/errors/CustomError.js';
 import { ErrorCodes } from '../services/errors/enums.js';
+import { usersController } from "../controllers/usersControler.js";
+import { upLoader, setDestination } from "../utils/utils.js";
 
 const usersRouter = Router();
 const carts = new cartsController();
+const users = new usersController();
 
 usersRouter.post("/register", passport.authenticate("register", { failureRedirect: "/failRegister", session: false }), async (req, res) => {
   try {
@@ -40,7 +43,6 @@ usersRouter.post("/login", passport.authenticate("login", { failureRedirect: "/f
     if (isAdmin(req.body.email, req.body.password)) {
       user.role = "ADMIN"
     }
-    /* delete req.user.password */
 
     carts.addUid(user)
 
@@ -62,6 +64,83 @@ usersRouter.post("/login", passport.authenticate("login", { failureRedirect: "/f
       name: 'usersRouterLogin error',
       cause: 'Server fail to login user',
       message: 'Server ERROR, no se pudo loguear el usuario',
+      code: ErrorCodes.DATABASE_ERROR
+    });
+  }
+});
+
+usersRouter.post("/forgetpassword", async (req, res) => {
+  try {
+    const email = req.body.email;
+    const user = await users.findUserAndSendEmailRecover(email);
+    
+    if (!user) {
+      return res.redirect("/sendEmailRecoverFail")
+    }
+
+    return res.redirect("/sendEmailRecover");
+  } catch (error) {
+    req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'usersRouterRecoverPassword error'`);
+    CustomError.createError({
+      name: 'usersRouterRecoverPassword error',
+      cause: 'Server fail to reccover password',
+      message: 'Server ERROR, no se pudo recuperar contraseña',
+      code: ErrorCodes.DATABASE_ERROR
+    });
+  }
+});
+
+usersRouter.post("/restorePassword", async (req, res) => {
+  try {
+    const email = req.body.email;
+    const newPassword= req.body.password;
+    const result = await users.updateUserPassword(email, newPassword);
+
+    if(!result){
+      return res.redirect("/failRecover")
+    }
+  
+    return res.redirect("/login");
+  } catch (error) {
+    req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'usersRouterRestorePassword error'`);
+    CustomError.createError({
+      name: 'usersRouterRestorePassword error',
+      cause: 'Server fail to restore password',
+      message: 'Server ERROR, no se pudo cambiar la contraseña',
+      code: ErrorCodes.DATABASE_ERROR
+    });
+  }
+});
+
+usersRouter.get("/premium/:uId", userVerify('jwt', ["ADMIN"]), async (req, res) => {
+  try {
+    const uId = req.params.uId;
+    const result = await users.updateUserRole(uId);
+
+    res.send(result);
+  } catch (error) {
+    req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'usersRouterChangeUser error'`);
+    CustomError.createError({
+      name: 'usersRouterChangeUser error',
+      cause: 'Server fail to chargue change user route',
+      message: 'Server ERROR, no se pudo cargar la vista de cambio de usuario',
+      code: ErrorCodes.DATABASE_ERROR
+    });
+  }
+});
+
+usersRouter.post("/:uId/documents", userVerify('jwt', ["USER", "PREMIUM"]), setDestination('documents') ,upLoader.array('docs', 2), async (req, res) => {
+  try {
+    const uId = req.user.user._id;
+    const files = req.files
+    const result = await users.updateUserDocuments(uId, files);
+    return res.redirect("/products");
+  } catch (error) {
+    req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'usersRouterChangeUser error'`);
+    CustomError.createError({
+      name: 'usersRouterChangeUser error',
+      cause: 'Server fail to chargue change user route',
+      message: 'Server ERROR, no se pudo cargar la vista de cambio de usuario',
       code: ErrorCodes.DATABASE_ERROR
     });
   }

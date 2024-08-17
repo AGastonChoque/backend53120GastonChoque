@@ -11,8 +11,9 @@ export default class productsServices {
         this.products = new products()
     }
 
-    async addProduct(product) {
+    async addProduct(product, userEmail, userRole) {
         let productVerify = await this.products.inProductsByCode(product.code)
+        
         if (!productVerify) {
             const productNew = {
                 title: product.title,
@@ -22,7 +23,8 @@ export default class productsServices {
                 code: product.code,
                 stock: product.stock,
                 status: true,
-                category: product.category
+                category: product.category,
+                owner: userRole === "PREMIUM" ? userEmail : "ADMIN",
             };
             if (!Object.values(productNew).includes(undefined)) {
                 await this.products.create(productNew);
@@ -95,14 +97,17 @@ export default class productsServices {
         }
     }
 
-    async deleteProduct(id) {
+    async deleteProduct(id, userEmail, userRole) {
         let product = await this.products.findOneId(id)
+        let owner = product.owner
         if (!product) {
             throw new Error(`El producto con el id: "${id}" no existe.`);
+        } if (userRole === 'ADMIN' || owner === userEmail){
+            await this.products.deleteOneId(id);
+            return product;
         } else {
-            await this.products.deleteOneId(id)
-            return product
-        }
+                throw new Error('No tienes permiso para borrar este producto.');
+            }
     }
 
 }

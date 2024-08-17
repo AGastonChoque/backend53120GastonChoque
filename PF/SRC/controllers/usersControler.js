@@ -29,4 +29,20 @@ export class usersController {
         return await this.usersServices.getUsers()
     }
 
+    async findUserAndSendEmailRecover(email) {
+        return await this.usersServices.findUserAndSendEmailRecover(email)
+    }
+
+    async updateUserPassword(email, newPassword) {
+        return await this.usersServices.updateUserPassword(email, newPassword)
+    }
+
+    async updateUserRole(uId) {
+        return await this.usersServices.updateUserRole(uId)
+    }
+
+    async updateUserDocuments(uId, files) {
+        return await this.usersServices.updateUserDocuments(uId, files)
+    }
+
 }

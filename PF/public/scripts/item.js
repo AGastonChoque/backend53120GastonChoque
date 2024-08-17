@@ -1,5 +1,6 @@
 const socket = io();
 
-function handleAddToCart(cId, pId) {
-    socket.emit("addProductToCart", cId, pId)
+
+function handleAddToCart(cId, pId, userEmail) {
+    socket.emit("addProductToCart", cId, pId, userEmail)
 }

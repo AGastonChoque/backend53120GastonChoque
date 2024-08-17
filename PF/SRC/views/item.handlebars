@@ -9,7 +9,7 @@
         <p class="card-text">{{product.description}}</p>
         <p class="card-text">${{product.price}}</p>
         <div class="d-flex flex-column">
-            <a id="idAddToCart" class="btn btn-outline-success" onclick='handleAddToCart("{{user.cId}}", "{{product._id}}")'>Add to cart</a>
+            <a id="idAddToCart" class="btn btn-outline-success" onclick='handleAddToCart("{{user.cId}}", "{{product._id}}", "{{user.email}}")'>Add to cart</a>
         </div>
     </div>
 </div>

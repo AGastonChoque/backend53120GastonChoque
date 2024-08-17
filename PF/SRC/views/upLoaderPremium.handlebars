@@ -1,0 +1,14 @@
+<div class="container">
+    <div class="v-form" data-aos="zoom-out-up" data-aos-duration="2000">
+        <form id="uploadForm" enctype="multipart/form-data" class="form" method="post" action="/api/sessions/{{user._id}}/documents">
+            <h2>Comprobante de pago</h2>
+            <p type="Image (Max. 2):">
+                <input type="file" name="docs" id="formImage" placeholder="Image" multiple>
+            </p>
+            <button>
+                <input type="submit" value="Send">
+            </button>
+        </form>
+    </div>
+
+</div>
