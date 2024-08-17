@@ -92,7 +92,7 @@ const initializatePassport = () => {
         {
             clientID: CLIENT_ID,
             clientSecret: SECRET_ID,
-            callbackURL: "http://localhost:8080/api/sessions/githubCallback",
+            callbackURL: "https://backend53120gastonchoque.onrender.com/api/sessions/githubCallback",
         },
         async (accessToken, refreshToken, profile, done) => {
             try {

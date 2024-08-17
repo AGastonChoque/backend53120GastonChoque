@@ -44,10 +44,12 @@ const connectionBBDD = async() => {
 
 connectionBBDD()
 
-/* app.use(cors({
-  origin: process.env.port,
+const PORT = process.env.port || config.port
+
+app.use(cors({
+  origin: `http://localhost:${PORT}`,
   methods: ["GET", "POST", "PUT", "DELETE"]
-})) */
+}))
 
 app.engine("handlebars", handlebars.engine());
 app.set("views", `${__dirname}/../views`);
@@ -81,8 +83,6 @@ const specs = swaggerJsdoc(swaggerOptions);
 app.use('/api/docs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
 
-
-const PORT = process.env.port || config.port
 const httpServer = app.listen(PORT, () => {
   console.log(`Servidor activo en http://localhost:${PORT}`);
 });
