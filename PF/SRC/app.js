@@ -44,10 +44,10 @@ const connectionBBDD = async() => {
 
 connectionBBDD()
 
-app.use(cors({
+/* app.use(cors({
   origin: process.env.port,
   methods: ["GET", "POST", "PUT", "DELETE"]
-}))
+})) */
 
 app.engine("handlebars", handlebars.engine());
 app.set("views", `${__dirname}/../views`);
