@@ -82,9 +82,9 @@ app.use('/api/docs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
 
 
-const PORT = process.env.port
+const PORT = process.env.port || config.port
 const httpServer = app.listen(PORT, () => {
-  console.log(`Servidor activo en ${PORT}`);
+  console.log(`Servidor activo en http://localhost:${PORT}`);
 });
 
 const io = new Server(httpServer)
