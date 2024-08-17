@@ -5,10 +5,19 @@ const __dirname = dirname(__filename);
 
 export default __dirname;
 
+const basePath = path.join('public', 'images');
+
 export function setDestination(destination) {
     return (req, res, next) => {
-        req.fileDestination = `public/images/${destination}`;
-        next();
+        const destinationPath = path.join(basePath, destination);
+
+        fs.mkdir(destinationPath, { recursive: true }, (err) => {
+            if (err) {
+                return next(err);
+            }
+            req.fileDestination = destinationPath;
+            next();
+        });
     };
 }
 
