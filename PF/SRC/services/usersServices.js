@@ -152,7 +152,7 @@ export default class usersServices {
 
     async getUsers() {
         let users = await this.users.getUsers()
-        const usersByDTO = users.map(user => new UserDTO(user));
+        const usersByDTO = users.map(user => new usersDTOGet(user));
         return usersByDTO
     }
 
