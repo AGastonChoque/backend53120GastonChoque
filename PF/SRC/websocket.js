@@ -49,8 +49,8 @@ const webSocket = (io) => {
       io.emit("cartRender", cartData);
     });
 
-    socket.on("buyCart", async (cId, userEmail) => {
-      const { purchasedProducts, notPurchased } = await carts.buyCart(cId)
+    socket.on("buyCart", async (cId, userEmail, userRole) => {
+      const { purchasedProducts, notPurchased } = await carts.buyCart(cId, userRole)
       let cartData = await carts.getCartById(cId);
       let newTiket = await tikets.createTiket(purchasedProducts, cId)
       let sendEmailPurchase = await tikets.sendEmailPurchase(userEmail)

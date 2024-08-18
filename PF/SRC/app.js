@@ -31,10 +31,10 @@ app.use(express.static(`${__dirname}/../../public`));
 
 app.use(cookieParser());
 
-/* const uri = config.mongo_url */
+const uri = config.mongo_url
 const connectionBBDD = async() => {
   try{
-    await mongoose.connect(process.env.mongo_url)
+    await mongoose.connect(uri)
     console.log("Conectado a la bbdd remota de mongoDB Atlas");
 
   }catch(error){
@@ -44,7 +44,7 @@ const connectionBBDD = async() => {
 
 connectionBBDD()
 
-const PORT = process.env.port || config.port
+const PORT = config.port
 
 app.use(cors({
   origin: `http://localhost:${PORT}`,

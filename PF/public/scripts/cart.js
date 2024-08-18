@@ -48,8 +48,8 @@ function clearCart(cId) {
     socket.emit("clearCart", cId)
 }
 
-function buyCart(cId, userEmail) {
-    socket.emit("buyCart", cId, userEmail)
+function buyCart(cId, userEmail, useRole) {
+    socket.emit("buyCart", cId, userEmail, useRole)
 }
 
 socket.on("toPurchase", (data) => {
