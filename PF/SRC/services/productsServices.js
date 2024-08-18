@@ -1,9 +1,21 @@
+import nodemailer from "nodemailer"
+
 import products from "../dao/mongo/productsMongo.js"
 /* import products from "../dao/memory/produtsMemory.js" */
 
 import CustomError from './errors/CustomError.js';
 import { ErrorCodes } from './errors/enums.js';
 import { generateUserErrorInfo, generateProductErrorInfo, generateProductCodeErrorInfo } from './errors/info.js';
+
+
+const transport = nodemailer.createTransport({
+    service: 'gmail',
+    port: 587,
+    auth: {
+        user: config.APP_EMAIL_EMAIL,
+        pass: config.APP_EMAIL_PASSWORD
+    }
+});
 
 export default class productsServices {
 
@@ -104,6 +116,18 @@ export default class productsServices {
             throw new Error(`El producto con el id: "${id}" no existe.`);
         } if (userRole === 'ADMIN' || owner === userEmail){
             await this.products.deleteOneId(id);
+            if (owner !== 'ADMIN') {
+                const emailDeleteProduct = await transport.sendMail({
+                    from: `AppCoderDeleteProduct <${config.APP_EMAIL_EMAIL}>`,
+                    to: owner,
+                    subject: 'Tu producto fue borrado!',
+                    html: `
+              <div>
+                <h1>¡Tu producto fue ${product.title} borrado!</h1>
+                <p>Este mensaje es para avisarte que el producto mencionado fue eliminado de nuestra BBDD.</p>
+              </div>`
+                });
+            }
             return product;
         } else {
                 throw new Error('No tienes permiso para borrar este producto.');
