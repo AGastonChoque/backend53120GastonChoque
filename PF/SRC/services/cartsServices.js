@@ -103,13 +103,10 @@ export default class cartsServices {
         return product.stock
     }
 
-    async buyCart(cId, userRole) {
+    async buyCart(cId) {
         let cart = await this.getById(cId)
         const purchasedProducts  = { products: [] }
         const stockErrors = {products:[]}
-        if (userRole === 'ADMIN') {
-            return userRole
-        }
         for (const product of cart.products) {
             const productStock = await this.getProductStock(product.product)
             if (productStock < product.quantity) {

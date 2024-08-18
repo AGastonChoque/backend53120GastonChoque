@@ -50,6 +50,9 @@ const webSocket = (io) => {
     });
 
     socket.on("buyCart", async (cId, userEmail, userRole) => {
+      if (userRole === 'ADMIN') {
+        return userRole
+    }
       const { purchasedProducts, notPurchased } = await carts.buyCart(cId, userRole)
       let cartData = await carts.getCartById(cId);
       let newTiket = await tikets.createTiket(purchasedProducts, cId)

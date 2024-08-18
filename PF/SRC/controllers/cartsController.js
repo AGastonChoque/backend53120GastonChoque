@@ -40,8 +40,8 @@ export class cartsController {
         return await this.cartsServices.deleteProductInCart(cId, pId)
     }
 
-    async buyCart(cId, userRole) {
-        return await this.cartsServices.buyCart(cId, userRole)
+    async buyCart(cId) {
+        return await this.cartsServices.buyCart(cId)
     }
 
     async addUid(user) {

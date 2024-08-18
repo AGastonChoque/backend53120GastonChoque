@@ -197,7 +197,10 @@ cartsRouter.get('/:cId/purchase', userVerify('jwt', ["USER", "ADMIN"]), async (r
             const userEmail = req.user.user.email
             const userRole = req.user.role
             const cId = req.params.cId;
-            const { purchasedProducts, notPurchased } = await carts.buyCart(cId, userRole)
+            if (userRole === 'ADMIN') {
+                return userRole
+            }
+            const { purchasedProducts, notPurchased } = await carts.buyCart(cId)
             let newTiket = await tikets.createTiket(purchasedProducts, cId)
             let sendEmailPurchase = await tikets.sendEmailPurchase(userEmail)
             req.logger.info(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'cartsRouterGetPurchase entry'`);
