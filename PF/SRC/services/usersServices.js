@@ -175,8 +175,9 @@ export default class usersServices {
                     return false;
                 }
                 const lastConnectDate = new Date(user.last_connection);
-                const timeDifference = (actualDate - lastConnectDate) / (1000 * 60);
-                return timeDifference > 1;
+            const timeDifferenceInMilliseconds = actualDate - lastConnectDate;
+            const timeDifferenceInDays = timeDifferenceInMilliseconds / (1000 * 60 * 60 * 24);
+            return timeDifferenceInDays > 2;
             })
             .map(user => user._id);
 
