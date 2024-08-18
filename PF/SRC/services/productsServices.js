@@ -19,13 +19,13 @@ const transport = nodemailer.createTransport({
 
 export default class productsServices {
 
-    constructor () {
+    constructor() {
         this.products = new products()
     }
 
     async addProduct(product, userEmail, userRole) {
         let productVerify = await this.products.inProductsByCode(product.code)
-        
+
         if (!productVerify) {
             const productNew = {
                 title: product.title,
@@ -86,9 +86,9 @@ export default class productsServices {
 
         if (valSort && productsRender.docs.length > 0) {
             productsRender.docs.sort((a, b) => {
-              return sort === 'asc' ? a.price - b.price : b.price - a.price;
+                return sort === 'asc' ? a.price - b.price : b.price - a.price;
             });
-          }
+        }
 
         return productsRender
     }
@@ -114,7 +114,7 @@ export default class productsServices {
         let owner = product.owner
         if (!product) {
             throw new Error(`El producto con el id: "${id}" no existe.`);
-        } if (userRole === 'ADMIN' || owner === userEmail){
+        } if (userRole === 'ADMIN' || owner === userEmail) {
             await this.products.deleteOneId(id);
             if (owner !== 'ADMIN') {
                 const emailDeleteProduct = await transport.sendMail({
@@ -127,11 +127,12 @@ export default class productsServices {
                 <p>Este mensaje es para avisarte que el producto mencionado fue eliminado de nuestra BBDD.</p>
               </div>`
                 });
+                return product;
             }
             return product;
         } else {
-                throw new Error('No tienes permiso para borrar este producto.');
-            }
+            throw new Error('No tienes permiso para borrar este producto.');
+        }
     }
 
 }
