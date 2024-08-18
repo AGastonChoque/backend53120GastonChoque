@@ -168,7 +168,7 @@ export default class usersServices {
         if(user.role === 'ADMIN'){
             return user.role
         }
-        const users = await this.getUsers()
+        /* const users = await this.getUsers()
         const actualDate = new Date();
         actualDate.setHours(date.getHours() - (date.getTimezoneOffset() / 60 + 3));
 
@@ -177,12 +177,12 @@ export default class usersServices {
             const timeDifference = (actualDate - lastConnectDate) / (1000 * 60);
             
             return timeDifference > 1;
-        }).map(user => user._id);
+        }).map(user => user._id); */
 
     
-    const deleteResult = await this.users.deleteInactivity(userIdsToDelete);
+    /* const deleteResult = await this.users.deleteInactivity(userIdsToDelete); */
     
-    return deleteResult;
+    /* return deleteResult; */
     }
 
 }
