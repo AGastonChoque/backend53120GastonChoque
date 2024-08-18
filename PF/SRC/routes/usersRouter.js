@@ -231,7 +231,8 @@ usersRouter.delete('/delete', userVerify('jwt', ["ADMIN"]), async (req, res) => 
 
 usersRouter.get('/delete', userVerify('jwt', ["ADMIN"]), async (req, res) => {
   try {
-    const result = await users.deleteInactivity();
+    const user = req.user
+    const result = await users.deleteInactivity(user);
     res.send(req.user);
   } catch (error) {
     req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'usersRouteDelete error'`);

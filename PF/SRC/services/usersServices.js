@@ -164,7 +164,10 @@ export default class usersServices {
         return lastConnect;
     }
 
-    async deleteInactivity() {
+    async deleteInactivity(user) {
+        if(user.role === 'ADMIN'){
+            return user.role
+        }
         const users = await this.getUsers()
         const actualDate = new Date();
         actualDate.setHours(date.getHours() - (date.getTimezoneOffset() / 60 + 3));
