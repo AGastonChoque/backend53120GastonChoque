@@ -156,4 +156,12 @@ export default class usersServices {
         return usersByDTO
     }
 
+    async lastConnect(uId) {
+        const date = new Date();
+        const formattedDate = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+    
+        const lastConnect = await this.users.lastConnect(uId, formattedDate);
+        return lastConnect;
+    }
+
 }

@@ -44,4 +44,12 @@ export default class usersMongo {
         );
     }
 
+    async lastConnect(uId, date) {
+        return await usersModel.findOneAndUpdate(
+            { _id: uId },
+            { last_connect: date },
+            { new: true }
+        )
+    }
+
 }

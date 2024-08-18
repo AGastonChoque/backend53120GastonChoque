@@ -46,7 +46,11 @@ export class usersController {
     }
 
     async getusers() {
-        return await this.productsServices.getUsers()
+        return await this.usersServices.getUsers()
+    }
+
+    async lastConnect(uId) {
+        return await this.usersServices.lastConnect(uId)
     }
 
 }

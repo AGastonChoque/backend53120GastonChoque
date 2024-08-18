@@ -48,12 +48,16 @@ usersRouter.post("/login", passport.authenticate("login", { failureRedirect: "/f
 
     user = req.user
 
+    const uId = req.user.user._id;
+    const updateLastConnect = await users.lastConnect(uId);
+
     const PRIVATE_KEY = config.PRIVATE_KEY_jWT
     const token = jwt.sign({ user }, PRIVATE_KEY, { expiresIn: "1h" })
 
     res.cookie('cookieToken', token, { httpOnly: true, secure: true, maxAge: 60 * 60 * 1000 })
 
     req.user = user
+
     return res.redirect("/products")
   } catch (error) {
     user.failLogin = true;
