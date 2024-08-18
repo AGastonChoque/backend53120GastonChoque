@@ -132,7 +132,7 @@ export default class productsServices {
             }
             return product;
         } else {
-            throw new Error('No tienes permiso para borrar este producto.');
+            return owner
         }
     }
 
