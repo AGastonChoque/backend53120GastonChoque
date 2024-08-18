@@ -158,6 +158,7 @@ export default class usersServices {
 
     async lastConnect(uId) {
         const date = new Date();
+        date.setHours(date.getHours() - (date.getTimezoneOffset() / 60 + 3));
     
         const lastConnect = await this.users.lastConnect(uId, date);
         return lastConnect;
