@@ -48,8 +48,7 @@ usersRouter.post("/login", passport.authenticate("login", { failureRedirect: "/f
 
     user = req.user
 
-    const uId = req.user.user._id;
-    const updateLastConnect = await users.lastConnect(uId);
+    const updateLastConnect = await users.lastConnect(user._id);
 
     const PRIVATE_KEY = config.PRIVATE_KEY_jWT
     const token = jwt.sign({ user }, PRIVATE_KEY, { expiresIn: "1h" })

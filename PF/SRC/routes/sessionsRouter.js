@@ -33,7 +33,7 @@ sessionsRouter.get("/githubCallback", passport.authenticate("github", { failureR
   const user = req.user
   try {
     carts.addUid(user)
-    const updateLastConnect = await users.lastConnect(uId);
+    const updateLastConnect = await users.lastConnect(user._id);
     const PRIVATE_KEY = "secretKeyJWT"
     const token = jwt.sign({user}, PRIVATE_KEY, {expiresIn: "1h"})
     res.cookie('cookieToken', token, { httpOnly: true, secure: true, maxAge: 60*60*1000 })
