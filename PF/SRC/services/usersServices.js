@@ -176,16 +176,17 @@ export default class usersServices {
                 }
                 const lastConnectDate = new Date(user.last_connection);
                 const timeDifference = (actualDate - lastConnectDate) / (1000 * 60);
-                return timeDifference > 1;
+                /* return timeDifference > 1; */
+                return lastConnectDate;
             })
-            .map(user => ({ _id: user._id }));
+            .map(user => ({ _id: user._id, lastConnect: user.lastConnectDate  }));
 
         if (userIdsToDelete.length === 0) {
             return { success: true, deletedCount: 0 };
         }
 
         /* const deleteResult = await this.deleteUsers(userIdsToDelete); */
-        return users;
+        return userIdsToDelete;
     }
 
 }
