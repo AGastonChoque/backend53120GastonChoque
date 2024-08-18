@@ -49,4 +49,8 @@ export class usersController {
         return await this.usersServices.lastConnect(uId)
     }
 
+    async deleteInactivity() {
+        return await this.usersServices.deleteInactivity()
+    }
+
 }

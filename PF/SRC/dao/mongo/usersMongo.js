@@ -52,4 +52,15 @@ export default class usersMongo {
         )
     }
 
+    async deleteInactivity(userIds) {
+        const result = await usersModel.deleteMany({
+            _id: { $in: userIds }
+        });
+
+        return {
+            success: true,
+            deletedCount: result.deletedCount,
+        };
+    }
+
 }

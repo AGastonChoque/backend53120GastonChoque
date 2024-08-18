@@ -159,9 +159,27 @@ export default class usersServices {
     async lastConnect(uId) {
         const date = new Date();
         date.setHours(date.getHours() - (date.getTimezoneOffset() / 60 + 3));
-    
+
         const lastConnect = await this.users.lastConnect(uId, date);
         return lastConnect;
+    }
+
+    async deleteInactivity() {
+        const users = this.getUsers()
+        const actualDate = new Date();
+        actualDate.setHours(date.getHours() - (date.getTimezoneOffset() / 60 + 3));
+
+        const userIdsToDelete = users.filter(user => {
+            const lastConnectDate = new Date(user.last_connect);
+            const timeDifference = (actualDate - lastConnectDate) / (1000 * 60);
+            return timeDifference > 1;
+        })
+        .map(user => user._id);
+
+    
+    const deleteResult = await this.users.deleteInactivity(userIdsToDelete);
+    
+    return deleteResult;
     }
 
 }
