@@ -178,13 +178,13 @@ export default class usersServices {
                 const timeDifference = (actualDate - lastConnectDate) / (1000 * 60);
                 return timeDifference > 1;
             })
-            .map(user => ({ _id: user._id, lastConnect: user.last_connection  }));
+            .map(user => ({ _id: user._id, lastConnect: user.last_connection, email: user.email  }));
 
         if (userIdsToDelete.length === 0) {
             return { success: true, deletedCount: 0 };
         }
 
-        /* const deleteResult = await this.deleteUsers(userIdsToDelete); */
+        /* const deleteResult = await this.users.deleteInactivity(userIdsToDelete); */
         return userIdsToDelete;
     }
 
