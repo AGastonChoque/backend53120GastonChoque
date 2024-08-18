@@ -149,4 +149,9 @@ export default class usersServices {
 
     }
 
+    async getUsers() {
+        let users = await this.users.getUsers()
+        return users
+    }
+
 }

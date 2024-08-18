@@ -196,5 +196,20 @@ usersRouter.get('/private', userVerify('jwt', ["ADMIN"]), passportCall('jwt'), a
   }
 });
 
+usersRouter.get('/', userVerify('jwt', ["ADMIN"]), passportCall('jwt'), async (req, res) => {
+  try {
+    const result = await users.getUsers();
+    res.send(result);
+  } catch (error) {
+    req.logger.fatal(`${new Date().toDateString()} ${req.method} ${req.url}, name: 'usersRouterPrivate error'`);
+    CustomError.createError({
+      name: 'usersRouterPrivate error',
+      cause: 'Server fail to chargue private route',
+      message: 'Server ERROR, no se pudo cargar la vista privada',
+      code: ErrorCodes.DATABASE_ERROR
+    });
+  }
+});
+
 
 export default usersRouter;

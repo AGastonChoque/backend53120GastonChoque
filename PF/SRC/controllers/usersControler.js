@@ -45,4 +45,8 @@ export class usersController {
         return await this.usersServices.updateUserDocuments(uId, files)
     }
 
+    async getusers() {
+        return await this.productsServices.getUsers()
+    }
+
 }
