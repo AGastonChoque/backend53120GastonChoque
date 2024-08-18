@@ -6,9 +6,11 @@ import { cartsController } from "../controllers/cartsController.js";
 import { generateToken } from "../utils/jwt.js";
 import CustomError from '../services/errors/CustomError.js';
 import { ErrorCodes } from '../services/errors/enums.js';
+import { usersController } from "../controllers/usersControler.js";
 
 
 const carts = new cartsController()
+const users = new usersController();
 const sessionsRouter = Router();
 
 sessionsRouter.get("/github", passport.authenticate("github", {scope: ["user:email"]}), async (req, res) => {
@@ -31,6 +33,7 @@ sessionsRouter.get("/githubCallback", passport.authenticate("github", { failureR
   const user = req.user
   try {
     carts.addUid(user)
+    const updateLastConnect = await users.lastConnect(uId);
     const PRIVATE_KEY = "secretKeyJWT"
     const token = jwt.sign({user}, PRIVATE_KEY, {expiresIn: "1h"})
     res.cookie('cookieToken', token, { httpOnly: true, secure: true, maxAge: 60*60*1000 })
