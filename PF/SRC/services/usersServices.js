@@ -165,7 +165,7 @@ export default class usersServices {
     }
 
     async deleteInactivity() {
-        const users = this.getUsers()
+        const users = await this.getUsers()
         const actualDate = new Date();
         actualDate.setHours(date.getHours() - (date.getTimezoneOffset() / 60 + 3));
 
@@ -173,8 +173,7 @@ export default class usersServices {
             const lastConnectDate = new Date(user.last_connection);
             const timeDifference = (actualDate - lastConnectDate) / (1000 * 60);
             return timeDifference > 1;
-        })
-        .map(user => user._id);
+        }).map(user => user._id);
 
     
     const deleteResult = await this.users.deleteInactivity(userIdsToDelete);
