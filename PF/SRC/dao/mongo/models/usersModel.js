@@ -48,8 +48,8 @@ const userSchema = mongoose.Schema({
         }]
       },
     last_connection: {
-        type: Date
-    }
+        type: String
+    },
 });
 
 const usersModel = mongoose.model(usersCollection, userSchema);
