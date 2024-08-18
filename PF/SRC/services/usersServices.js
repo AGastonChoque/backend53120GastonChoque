@@ -5,6 +5,7 @@ import users from "../dao/mongo/usersMongo.js"
 /* import users from "../dao/memory/userMemory.js" */
 import config from "../config.js";
 import { createHash, isValidPassword } from "../utils/functionsUtils.js";
+import usersDTOGet from "../dao/DTOs/usersDTOGet.js";
 
 
 const transport = nodemailer.createTransport({
@@ -151,7 +152,8 @@ export default class usersServices {
 
     async getUsers() {
         let users = await this.users.getUsers()
-        return users
+        const usersByDTO = users.map(user => new UserDTO(user));
+        return usersByDTO
     }
 
 }
