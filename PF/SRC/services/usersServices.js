@@ -185,7 +185,7 @@ export default class usersServices {
         }
 
         /* const deleteResult = await this.deleteUsers(userIdsToDelete); */
-        return userIdsToDelete;
+        return users;
     }
 
 }
