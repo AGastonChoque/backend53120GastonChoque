@@ -170,11 +170,8 @@ export default class usersServices {
         actualDate.setHours(date.getHours() - (date.getTimezoneOffset() / 60 + 3));
 
         const userIdsToDelete = users.filter(user => {
-            const lastConnectDate = new Date(user.last_connection);
+            const lastConnectDate = user.last_connection;
             const timeDifference = (actualDate - lastConnectDate) / (1000 * 60);
-            console.log(lastConnectDate);
-            console.log(actualDate);
-            console.log(timeDifference);
             
             return timeDifference > 1;
         }).map(user => user._id);
