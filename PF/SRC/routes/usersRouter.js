@@ -214,7 +214,7 @@ usersRouter.get('/', userVerify('jwt', ["ADMIN"]), passportCall('jwt'), async (r
   }
 });
 
-usersRouter.delete('/delete', userVerify('jwt', ["ADMIN"]), async (req, res) => {
+usersRouter.delete('/delete', userVerify('jwt', ["ADMIN"]), passportCall('jwt'), async (req, res) => {
   try {
     const result = await users.deleteInactivity();
     res.send(req.user);
@@ -229,7 +229,7 @@ usersRouter.delete('/delete', userVerify('jwt', ["ADMIN"]), async (req, res) => 
   }
 });
 
-usersRouter.get('/delete', userVerify('jwt', ["ADMIN"]), async (req, res) => {
+usersRouter.get('/delete', userVerify('jwt', ["ADMIN"]), passportCall('jwt'), async (req, res) => {
   try {
     const user = req.user
     const result = await users.deleteInactivity(user);
