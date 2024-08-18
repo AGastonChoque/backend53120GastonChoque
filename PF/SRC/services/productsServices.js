@@ -6,6 +6,7 @@ import products from "../dao/mongo/productsMongo.js"
 import CustomError from './errors/CustomError.js';
 import { ErrorCodes } from './errors/enums.js';
 import { generateUserErrorInfo, generateProductErrorInfo, generateProductCodeErrorInfo } from './errors/info.js';
+import config from "../config.js";
 
 
 const transport = nodemailer.createTransport({
