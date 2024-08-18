@@ -49,8 +49,8 @@ export class usersController {
         return await this.usersServices.lastConnect(uId)
     }
 
-    async deleteInactivity(user) {
-        return await this.usersServices.deleteInactivity(user)
+    async deleteInactivity() {
+        return await this.usersServices.deleteInactivity()
     }
 
 }
