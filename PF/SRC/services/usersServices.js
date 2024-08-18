@@ -165,25 +165,27 @@ export default class usersServices {
     }
 
     async deleteInactivity() {
-        const users = await this.getUsers()
+        const users = await this.getUsers(); 
         const actualDate = new Date();
-        actualDate.setHours(date.getHours() - (date.getTimezoneOffset() / 60 + 3));
+        actualDate.setHours(actualDate.getHours() - (actualDate.getTimezoneOffset() / 60 + 3));
 
         const userIdsToDelete = users
             .filter(user => {
                 if (user.role === 'ADMIN') {
                     return false;
                 }
-                const lastConnectDate = user.last_connection;
+                const lastConnectDate = new Date(user.last_connection);
                 const timeDifference = (actualDate - lastConnectDate) / (1000 * 60);
                 return timeDifference > 1;
             })
             .map(user => user._id);
 
-    
-    /* const deleteResult = await this.users.deleteInactivity(userIdsToDelete); */
-    
-    return userIdsToDelete;
+        if (userIdsToDelete.length === 0) {
+            return { success: true, deletedCount: 0 };
+        }
+
+        /* const deleteResult = await this.deleteUsers(userIdsToDelete); */
+        return userIdsToDelete;
     }
 
 }
