@@ -45,10 +45,6 @@ export class usersController {
         return await this.usersServices.updateUserDocuments(uId, files)
     }
 
-    async getusers() {
-        return await this.usersServices.getUsers()
-    }
-
     async lastConnect(uId) {
         return await this.usersServices.lastConnect(uId)
     }
