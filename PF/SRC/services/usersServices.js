@@ -181,9 +181,9 @@ export default class usersServices {
             .map(user => user._id);
 
     
-    const deleteResult = await this.users.deleteInactivity(userIdsToDelete);
+    /* const deleteResult = await this.users.deleteInactivity(userIdsToDelete); */
     
-    return deleteResult;
+    return userIdsToDelete;
     }
 
 }
