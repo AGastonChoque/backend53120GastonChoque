@@ -124,7 +124,7 @@ export default class productsServices {
                     subject: 'Tu producto fue borrado!',
                     html: `
               <div>
-                <h1>¡Tu producto fue ${product.title} borrado!</h1>
+                <h1>¡Tu producto ${product.title} fue borrado!</h1>
                 <p>Este mensaje es para avisarte que el producto mencionado fue eliminado de nuestra BBDD.</p>
               </div>`
                 });
